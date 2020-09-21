@@ -26,8 +26,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-  String _text = 'Enter something...';
-
+  var _text = 'Enter something...';
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
