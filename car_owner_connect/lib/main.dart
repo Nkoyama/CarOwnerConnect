@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'import/header.dart';
 
 void main() {
   runApp(App());
@@ -8,9 +9,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,  // <- Debug の 表示を OFF
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: Text("sign in"),),
+        appBar: Header(),
         body: Center(child: Text("オラオラオラオラ")),
       ),
     );
