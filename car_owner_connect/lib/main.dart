@@ -12,7 +12,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: Header(headerText:'sing in'),
+        appBar: Header(headerText: 'sing in'),
         body: MyApp(),
       ),
     );
@@ -34,7 +34,12 @@ class _State extends State<MyApp> {
 
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(15),
+            child: Image.asset('images/CaroCon_logo1.png')
+          ),
+
+          Container(
+            padding: EdgeInsets.only(right:20, left:20),
             child: Column(
               children: <Widget>[
 
@@ -68,7 +73,7 @@ class _State extends State<MyApp> {
 
           // sign in button
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(10),
             child: RaisedButton.icon(
               icon: Icon(
                 Icons.lock_open,
@@ -76,12 +81,6 @@ class _State extends State<MyApp> {
               ),
               label: Text("sign in"),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateAccount(),
-                  )
-                );
               },
               color: Colors.lightGreen,
               textColor: Colors.white,
@@ -92,7 +91,14 @@ class _State extends State<MyApp> {
           Container(
             child: FlatButton(
               child: Text("create account"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateAccount(),
+                    )
+                );
+              },
               textColor: Colors.blue,
               padding: EdgeInsets.only(left:20.0, right:20.0),
             ),
