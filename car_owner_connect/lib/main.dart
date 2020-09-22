@@ -33,6 +33,8 @@ class _State extends State<MyApp> {
         padding: EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
+
+            // username textField
             TextField(
               decoration: InputDecoration(
                 labelText: 'Username',
@@ -44,6 +46,8 @@ class _State extends State<MyApp> {
               keyboardType: TextInputType.text,
               onSubmitted: _userNameSubmitted,
             ),
+
+            // password textField
             TextField(
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -55,6 +59,18 @@ class _State extends State<MyApp> {
               keyboardType: TextInputType.text,
               obscureText: true,
               onSubmitted: _passwordSubmitted,
+            ),
+
+            // sign in button
+            RaisedButton.icon(
+              icon: Icon(
+                Icons.lock_open,
+                color: Colors.white,
+              ),
+              label: Text("sign in"),
+              onPressed: () {},
+              color: Colors.lightGreen,
+              textColor: Colors.white,
             ),
           ],
         ),
