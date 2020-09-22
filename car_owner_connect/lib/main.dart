@@ -68,19 +68,35 @@ class _State extends State<MyApp> {
           // sign in button
           Container(
             padding: EdgeInsets.all(20),
-            child: Column(
-              children: <Widget>[
-                RaisedButton.icon(
-                  icon: Icon(
-                    Icons.lock_open,
-                    color: Colors.white,
-                  ),
-                  label: Text("sign in"),
-                  onPressed: () {},
-                  color: Colors.lightGreen,
-                  textColor: Colors.white,
-                ),
-              ],
+            child: RaisedButton.icon(
+              icon: Icon(
+                Icons.lock_open,
+                color: Colors.white,
+              ),
+              label: Text("sign in"),
+              onPressed: () {},
+              color: Colors.lightGreen,
+              textColor: Colors.white,
+            ),
+          ),
+
+          // create account button
+          Container(
+            child: FlatButton(
+              child: Text("create account"),
+              onPressed: () {},
+              textColor: Colors.blue,
+              padding: EdgeInsets.only(left:20.0, right:20.0),
+            ),
+          ),
+
+          // forget password button
+          Container(
+            child: FlatButton(
+              child: Text("forget password?"),
+              onPressed: () {},
+              textColor: Colors.blue,
+              padding: EdgeInsets.only(left:20.0, right:20.0),
             ),
           ),
         ],
