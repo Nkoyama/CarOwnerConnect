@@ -26,8 +26,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-  var _text = 'Enter something...';
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,13 +64,11 @@ class _State extends State<MyApp> {
 
   void _userNameSubmitted(String value) {
     setState(() {
-      _text = 'Submitted $value';
     });
   }
 
   void _passwordSubmitted(String value) {
     setState(() {
-      _text = 'Submitted $value';
     });
   }
 }
