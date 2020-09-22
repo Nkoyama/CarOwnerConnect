@@ -47,7 +47,6 @@ class _State extends State<MyApp> {
                   autocorrect: false,
                   autofocus: true,
                   keyboardType: TextInputType.text,
-                  onSubmitted: _userNameSubmitted,
                 ),
 
                 // password textField
@@ -61,16 +60,16 @@ class _State extends State<MyApp> {
                   autofocus: false,
                   keyboardType: TextInputType.text,
                   obscureText: true,
-                  onSubmitted: _passwordSubmitted,
                 ),
               ],
             ),
           ),
+
+          // sign in button
           Container(
             padding: EdgeInsets.all(20),
             child: Column(
               children: <Widget>[
-                // sign in button
                 RaisedButton.icon(
                   icon: Icon(
                     Icons.lock_open,
@@ -87,15 +86,5 @@ class _State extends State<MyApp> {
         ],
       ),
     );
-  }
-
-  void _userNameSubmitted(String value) {
-    setState(() {
-    });
-  }
-
-  void _passwordSubmitted(String value) {
-    setState(() {
-    });
   }
 }
