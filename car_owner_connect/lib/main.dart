@@ -45,7 +45,7 @@ class _State extends State<MyApp> {
                     icon: Icon(Icons.account_circle),
                   ),
                   autocorrect: false,
-                  autofocus: true,
+                  autofocus: false,
                   keyboardType: TextInputType.text,
                 ),
 
@@ -93,10 +93,10 @@ class _State extends State<MyApp> {
           // forget password button
           Container(
             child: FlatButton(
-              child: Text("forget password?"),
               onPressed: () {},
               textColor: Colors.blue,
               padding: EdgeInsets.only(left:20.0, right:20.0),
+              child: Text("forget username or password?"),
             ),
           ),
         ],
