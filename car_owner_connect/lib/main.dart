@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'import/header.dart';
+import 'pages/createAccount.dart';
 
 void main() {
   runApp(App());
@@ -11,7 +12,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: Header(),
+        appBar: Header(headerText:'sing in'),
         body: MyApp(),
       ),
     );
@@ -74,7 +75,14 @@ class _State extends State<MyApp> {
                 color: Colors.white,
               ),
               label: Text("sign in"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateAccount(),
+                  )
+                );
+              },
               color: Colors.lightGreen,
               textColor: Colors.white,
             ),
