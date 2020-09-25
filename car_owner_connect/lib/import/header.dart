@@ -11,7 +11,7 @@ class Header extends StatelessWidget with PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(this.headerText,),
-      backgroundColor: Colors.lightGreen,
+      backgroundColor: Color.fromARGB(255, 111, 207, 151),
       centerTitle: true,
       elevation: 0.0,
     );
