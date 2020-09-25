@@ -11,31 +11,27 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(),
       home: Scaffold(
         appBar: Header(headerText: 'sing in'),
-        body: MyApp(),
+        body: Container(
+          child: SignIn(),
+        ),
       ),
     );
   }
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _State();
-  }
-}
-
-class _State extends State<MyApp> {
+class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
 
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(15),
-            child: Image.asset('images/CaroCon_logo1.png')
+              padding: EdgeInsets.all(15),
+              child: Image.asset('images/CaroCon_logo1.png')
           ),
 
           Container(
@@ -114,7 +110,7 @@ class _State extends State<MyApp> {
             ),
           ),
         ],
-      ),
+      )
     );
   }
 }
