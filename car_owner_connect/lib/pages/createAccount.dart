@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../import/header.dart';
 
 class CreateAccount extends StatelessWidget {
@@ -25,13 +26,17 @@ class CreateAccount extends StatelessWidget {
                     // username textField
                     TextField(
                       decoration: InputDecoration(
-                        labelText: 'new username',
+                        labelText: 'username',
                         hintText: 'mew username',
                         icon: Icon(Icons.account_circle),
                       ),
                       autocorrect: false,
                       autofocus: false,
                       keyboardType: TextInputType.text,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(20),
+                      ],
+                      obscureText: false,
                     ),
 
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [

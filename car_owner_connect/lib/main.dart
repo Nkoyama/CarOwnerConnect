@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'import/header.dart';
 import 'pages/createAccount.dart';
 
@@ -14,7 +15,7 @@ class App extends StatelessWidget {
       home: Scaffold(
         appBar: Header(headerText: 'sing in'),
         body: Container(
-          child: SignIn(),
+          child: SignInPage(),
           color: Colors.white,
         ),
       ),
@@ -22,7 +23,7 @@ class App extends StatelessWidget {
   }
 }
 
-class SignIn extends StatelessWidget {
+class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -49,6 +50,10 @@ class SignIn extends StatelessWidget {
                   autocorrect: false,
                   autofocus: false,
                   keyboardType: TextInputType.text,
+                  inputFormatters: <TextInputFormatter>[
+                    LengthLimitingTextInputFormatter(20),
+                  ],
+                  obscureText: false,
                 ),
 
                 // password textField
@@ -60,7 +65,10 @@ class SignIn extends StatelessWidget {
                   ),
                   autocorrect: false,
                   autofocus: false,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.visiblePassword,
+                  inputFormatters: <TextInputFormatter>[
+                    LengthLimitingTextInputFormatter(12),
+                  ],
                   obscureText: true,
                 ),
               ],
@@ -131,7 +139,7 @@ class SignInState extends State<SignInResult> {
               ),
               label: Text("sign in"),
               onPressed: () {
-                changeMessage();
+                signIn();
               },
               color: Colors.lightGreen,
               textColor: Colors.white,
@@ -152,7 +160,7 @@ class SignInState extends State<SignInResult> {
     );
   }
 
-  void changeMessage() {
+  void signIn() {
     if(this.signInMessage.length > 0) {
       setState(() {
         this.signInMessage = "";
