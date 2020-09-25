@@ -10,7 +10,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: Scaffold(
         appBar: Header(headerText: 'sing in'),
@@ -69,6 +68,7 @@ class SignIn extends StatelessWidget {
 
           // sign in button
           Container(
+            padding: EdgeInsets.all(10),
             child: SignInResult(title: 'Flutter Demo Home Page'),
           ),
 
@@ -85,7 +85,7 @@ class SignIn extends StatelessWidget {
                 );
               },
               textColor: Colors.blue,
-              padding: EdgeInsets.only(left:20.0, right:20.0),
+              padding: EdgeInsets.only(left:20.0, right:20.0, top:20.0),
             ),
           ),
 
@@ -137,7 +137,7 @@ class SignInState extends State<SignInResult> {
           ),
 
           Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(0),
             child: Text(
               signInMessage,
               style: TextStyle(
