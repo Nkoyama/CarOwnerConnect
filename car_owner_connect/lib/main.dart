@@ -9,7 +9,7 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return new MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: Scaffold(
@@ -27,11 +27,11 @@ class SignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-
         children: <Widget>[
+          // logo
           Container(
               padding: EdgeInsets.all(15),
-              child: Image.asset('images/CaroCon_logo1.png')
+              child: Image.asset('images/CaroCon_logo2.png')
           ),
 
           Container(
@@ -69,18 +69,7 @@ class SignIn extends StatelessWidget {
 
           // sign in button
           Container(
-            padding: EdgeInsets.all(10),
-            child: RaisedButton.icon(
-              icon: Icon(
-                Icons.lock_open,
-                color: Colors.white,
-              ),
-              label: Text("sign in"),
-              onPressed: () {
-              },
-              color: Colors.lightGreen,
-              textColor: Colors.white,
-            ),
+            child: SignInResult(title: 'Flutter Demo Home Page'),
           ),
 
           // create account button
@@ -111,6 +100,53 @@ class SignIn extends StatelessWidget {
           ),
         ],
       )
+    );
+  }
+}
+
+class SignInResult extends StatefulWidget {
+  SignInResult({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  SignInState createState() => new SignInState();
+}
+
+class SignInState extends State<SignInResult> {
+  var signInMessage = "failed to sign in";
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget> [
+          // sign in button
+          Container(
+            padding: EdgeInsets.all(10),
+            child: RaisedButton.icon(
+              icon: Icon(
+                Icons.lock_open,
+                color: Colors.white,
+              ),
+              label: Text("sign in"),
+              onPressed: () {
+              },
+              color: Colors.lightGreen,
+              textColor: Colors.white,
+            ),
+          ),
+
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              signInMessage,
+              style: TextStyle(
+                color: Colors.red
+              )
+            ),
+          )
+        ]
+      ),
     );
   }
 }
