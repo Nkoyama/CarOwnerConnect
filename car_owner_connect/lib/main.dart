@@ -83,6 +83,11 @@ class SignInResult extends StatefulWidget {
 }
 
 class SignInState extends State<SignInResult> {
+  String username = '';
+  var _usernameController = TextEditingController();
+  String password = '';
+  var _passwordController = TextEditingController();
+
   String signInMessage = "";
 
   @override
@@ -98,6 +103,7 @@ class SignInState extends State<SignInResult> {
               hintText: 'Username',
               icon: Icon(Icons.account_circle),
             ),
+            controller: _usernameController,
             autocorrect: false,
             autofocus: false,
             keyboardType: TextInputType.text,
@@ -114,6 +120,7 @@ class SignInState extends State<SignInResult> {
               hintText: 'Password',
               icon: Icon(Icons.security),
             ),
+            controller: _passwordController,
             autocorrect: false,
             autofocus: false,
             keyboardType: TextInputType.visiblePassword,
@@ -133,6 +140,8 @@ class SignInState extends State<SignInResult> {
               ),
               label: Text("sign in"),
               onPressed: () {
+                username = _usernameController.text;
+                password = _passwordController.text;
                 signIn();
               },
               color: Colors.lightGreen,
@@ -155,7 +164,7 @@ class SignInState extends State<SignInResult> {
   }
 
   void signIn() {
-    if(this.signInMessage.length > 0) {
+    if(this.username.length > 0 && this.password.length > 0) {
       setState(() {
         this.signInMessage = "";
       });
