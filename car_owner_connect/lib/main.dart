@@ -69,7 +69,7 @@ class SignIn extends StatelessWidget {
           // sign in button
           Container(
             padding: EdgeInsets.all(10),
-            child: SignInResult(title: 'Flutter Demo Home Page'),
+            child: SignInResult(title: ''),
           ),
 
           // create account button
@@ -113,7 +113,7 @@ class SignInResult extends StatefulWidget {
 }
 
 class SignInState extends State<SignInResult> {
-  var signInMessage = "failed to sign in";
+  String signInMessage = "";
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +130,7 @@ class SignInState extends State<SignInResult> {
               ),
               label: Text("sign in"),
               onPressed: () {
+                changeMessage();
               },
               color: Colors.lightGreen,
               textColor: Colors.white,
@@ -148,5 +149,17 @@ class SignInState extends State<SignInResult> {
         ]
       ),
     );
+  }
+
+  void changeMessage() {
+    if(this.signInMessage.length > 0) {
+      setState(() {
+        this.signInMessage = "";
+      });
+    } else {
+      setState(() {
+        this.signInMessage = "failed to sign in.";
+      });
+    }
   }
 }
