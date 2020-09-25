@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../import/header.dart';
+import '../import/footer.dart';
 
 class TalkMain extends StatelessWidget {
   @override
@@ -11,6 +12,7 @@ class TalkMain extends StatelessWidget {
         child: TalkMainPage(),
         color: Colors.lightBlue,
       ),
+      bottomNavigationBar: Footer()
     );
   }
 }
