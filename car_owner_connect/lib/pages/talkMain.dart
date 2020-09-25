@@ -20,6 +20,8 @@ class TalkMainPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+
+          // search
           Container(
             constraints: BoxConstraints.expand(height: 25.0),
             padding: EdgeInsets.all(0),
@@ -31,6 +33,20 @@ class TalkMainPage extends StatelessWidget {
                 )
             ),
             color: Colors.grey
+          ),
+
+          // history
+          Container(
+              constraints: BoxConstraints.expand(height: 25.0),
+              padding: EdgeInsets.all(0),
+              child: Text(
+                  '履歴',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                  )
+              ),
+              color: Colors.grey
           ),
 
           SingleChildScrollView(
