@@ -88,11 +88,78 @@ class CreateAccount extends StatelessWidget {
                   ],
                 ),
               ),
+
+              // create account button
+              Container(
+                padding: EdgeInsets.all(10),
+                child: CreateAccountResult(title: ''),
+              ),
+
             ],
           ),
         ),
         color: Colors.white,
       ),
     );
+  }
+}
+
+class CreateAccountResult extends StatefulWidget {
+  CreateAccountResult({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  CreateAccountState createState() => new CreateAccountState();
+}
+
+class CreateAccountState extends State<CreateAccountResult> {
+  String createAccountMessage = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+          children: <Widget> [
+            // sign in button
+            Container(
+              padding: EdgeInsets.all(10),
+              child: RaisedButton.icon(
+                icon: Icon(
+                  Icons.lock_open,
+                  color: Colors.white,
+                ),
+                label: Text("create account"),
+                onPressed: () {
+                  createAccount();
+                },
+                color: Colors.lightGreen,
+                textColor: Colors.white,
+              ),
+            ),
+
+            Container(
+              padding: EdgeInsets.all(0),
+              child: Text(
+                  createAccountMessage,
+                  style: TextStyle(
+                      color: Colors.red
+                  )
+              ),
+            )
+          ]
+      ),
+    );
+  }
+
+  void createAccount() {
+    if(this.createAccountMessage.length > 0) {
+      setState(() {
+        this.createAccountMessage = "";
+      });
+    } else {
+      setState(() {
+        this.createAccountMessage = "failed to create account.";
+      });
+    }
   }
 }
