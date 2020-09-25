@@ -48,6 +48,46 @@ class CreateAccount extends StatelessWidget {
                   ],
                 ),
               ),
+
+              // password textField
+              Container(
+                padding: EdgeInsets.only(right:20, left:20),
+                child: Column(
+                  children: <Widget>[
+
+                    // username textField
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'password',
+                        hintText: 'password',
+                        icon: Icon(Icons.security),
+                      ),
+                      autocorrect: false,
+                      autofocus: false,
+                      keyboardType: TextInputType.text,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(20),
+                      ],
+                      obscureText: false,
+                    ),
+
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'password again',
+                        hintText: 'password',
+                        icon: Icon(Icons.security),
+                      ),
+                      autocorrect: false,
+                      autofocus: false,
+                      keyboardType: TextInputType.text,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(20),
+                      ],
+                      obscureText: false,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
