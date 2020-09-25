@@ -15,6 +15,7 @@ class App extends StatelessWidget {
         appBar: Header(headerText: 'sing in'),
         body: Container(
           child: SignIn(),
+          color: Colors.white,
         ),
       ),
     );

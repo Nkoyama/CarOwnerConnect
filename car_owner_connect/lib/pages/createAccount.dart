@@ -8,7 +8,7 @@ class CreateAccount extends StatelessWidget {
       appBar: Header(headerText: 'create account',),
       body: Container(
         height: double.infinity,
-        color: Colors.red,
+        color: Colors.white,
       ),
     );
   }
