@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'import/header.dart';
 import 'pages/createAccount.dart';
+import 'pages/talkMain.dart';
 
 void main() {
   runApp(App());
@@ -165,6 +166,12 @@ class SignInState extends State<SignInResult> {
       setState(() {
         this.signInMessage = "";
       });
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TalkMain(),
+          )
+      );
     } else {
       setState(() {
         this.signInMessage = "failed to sign in.";
