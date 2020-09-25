@@ -36,47 +36,7 @@ class SignInPage extends StatelessWidget {
               child: Image.asset('images/CaroCon_logo2.png')
           ),
 
-          Container(
-            padding: EdgeInsets.only(right:20, left:20),
-            child: Column(
-              children: <Widget>[
-
-                // username textField
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                    hintText: 'Username',
-                    icon: Icon(Icons.account_circle),
-                  ),
-                  autocorrect: false,
-                  autofocus: false,
-                  keyboardType: TextInputType.text,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(20),
-                  ],
-                  obscureText: false,
-                ),
-
-                // password textField
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    hintText: 'Password',
-                    icon: Icon(Icons.security),
-                  ),
-                  autocorrect: false,
-                  autofocus: false,
-                  keyboardType: TextInputType.visiblePassword,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(12),
-                  ],
-                  obscureText: true,
-                ),
-              ],
-            ),
-          ),
-
-          // sign in button
+          // username, password, sign in button
           Container(
             padding: EdgeInsets.all(10),
             child: SignInResult(title: ''),
@@ -130,6 +90,39 @@ class SignInState extends State<SignInResult> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget> [
+
+          // username textField
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Username',
+              hintText: 'Username',
+              icon: Icon(Icons.account_circle),
+            ),
+            autocorrect: false,
+            autofocus: false,
+            keyboardType: TextInputType.text,
+            inputFormatters: <TextInputFormatter>[
+              LengthLimitingTextInputFormatter(20),
+            ],
+            obscureText: false,
+          ),
+
+          // password textField
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Password',
+              hintText: 'Password',
+              icon: Icon(Icons.security),
+            ),
+            autocorrect: false,
+            autofocus: false,
+            keyboardType: TextInputType.visiblePassword,
+            inputFormatters: <TextInputFormatter>[
+              LengthLimitingTextInputFormatter(12),
+            ],
+            obscureText: true,
+          ),
+
           // sign in button
           Container(
             padding: EdgeInsets.all(10),
