@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'import/header.dart';
 import 'pages/createAccount.dart';
-import 'pages/main.dart';
+import 'pages/mainFooter.dart';
 
 void main() {
   runApp(App());

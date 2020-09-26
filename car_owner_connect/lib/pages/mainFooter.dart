@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'talkMain.dart';
+import 'profileMain.dart';
 
 class Main extends StatelessWidget {
   @override
@@ -20,7 +21,7 @@ class _FooterState extends State<Footer> {
 
   static List<Widget> _pageList = [
     TalkMain(),
-    CustomPage(pannelColor: Colors.green, title: 'Settings')
+    ProfileMain(),
   ];
 
   void _onItemTapped(int index) {
@@ -46,38 +47,6 @@ class _FooterState extends State<Footer> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class CustomPage extends StatelessWidget {
-  final Color pannelColor;
-  final String title;
-
-  CustomPage({@required this.pannelColor, @required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    final titleTextStyle = Theme.of(context).textTheme.title;
-    return Container(
-      child: Center(
-        child: Container(
-          width: 200,
-          height: 200,
-          decoration: BoxDecoration(
-              color: pannelColor,
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          child: Center(
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: titleTextStyle.fontSize,
-                color: titleTextStyle.color,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
