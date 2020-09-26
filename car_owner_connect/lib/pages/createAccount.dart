@@ -17,78 +17,6 @@ class CreateAccount extends StatelessWidget {
                   child: Image.asset('images/CaroCon_logo2.png')
               ),
 
-              // new username textField
-              Container(
-                padding: EdgeInsets.only(right:20, left:20),
-                child: Column(
-                  children: <Widget>[
-
-                    // username textField
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'username',
-                        hintText: 'mew username',
-                        icon: Icon(Icons.account_circle),
-                      ),
-                      autocorrect: false,
-                      autofocus: false,
-                      keyboardType: TextInputType.text,
-                      inputFormatters: <TextInputFormatter>[
-                        LengthLimitingTextInputFormatter(20),
-                      ],
-                      obscureText: false,
-                    ),
-
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Text(
-                        '　　　※半角',
-                        textAlign: TextAlign.left,
-                      ),
-                    ]),
-                  ],
-                ),
-              ),
-
-              // password textField
-              Container(
-                padding: EdgeInsets.only(right:20, left:20),
-                child: Column(
-                  children: <Widget>[
-
-                    // username textField
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'password',
-                        hintText: 'password',
-                        icon: Icon(Icons.security),
-                      ),
-                      autocorrect: false,
-                      autofocus: false,
-                      keyboardType: TextInputType.text,
-                      inputFormatters: <TextInputFormatter>[
-                        LengthLimitingTextInputFormatter(20),
-                      ],
-                      obscureText: false,
-                    ),
-
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'password again',
-                        hintText: 'password',
-                        icon: Icon(Icons.security),
-                      ),
-                      autocorrect: false,
-                      autofocus: false,
-                      keyboardType: TextInputType.text,
-                      inputFormatters: <TextInputFormatter>[
-                        LengthLimitingTextInputFormatter(20),
-                      ],
-                      obscureText: false,
-                    ),
-                  ],
-                ),
-              ),
-
               // create account button
               Container(
                 padding: EdgeInsets.all(10),
@@ -113,13 +41,103 @@ class CreateAccountResult extends StatefulWidget {
 }
 
 class CreateAccountState extends State<CreateAccountResult> {
+  var _usernameController = TextEditingController();
+  var _passwordController = TextEditingController();
+  var _password2Controller = TextEditingController();
+
+  var _usernameFocusNode = FocusNode();
+  var _passwordFocusNode = FocusNode();
+  var _password2FocusNode = FocusNode();
+
   String createAccountMessage = "";
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return GestureDetector(
+      onTap: () {
+        _usernameFocusNode.unfocus();
+        _passwordFocusNode.unfocus();
+        _password2FocusNode.unfocus();
+      },
+      child: SingleChildScrollView(
+        child: Column(
           children: <Widget> [
+
+            // new username textField
+            Container(
+              padding: EdgeInsets.only(right:20, left:20),
+              child: Column(
+                children: <Widget>[
+
+                  // username textField
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'username',
+                      hintText: 'mew username',
+                      icon: Icon(Icons.account_circle),
+                    ),
+                    autocorrect: false,
+                    autofocus: false,
+                    keyboardType: TextInputType.text,
+                    inputFormatters: <TextInputFormatter>[
+                      LengthLimitingTextInputFormatter(20),
+                    ],
+                    obscureText: false,
+                    focusNode: _usernameFocusNode,
+                  ),
+
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    Text(
+                      '　　　※半角',
+                      textAlign: TextAlign.left,
+                    ),
+                  ]),
+                ],
+              ),
+            ),
+
+            // password textField
+            Container(
+              padding: EdgeInsets.only(right:20, left:20),
+              child: Column(
+                children: <Widget>[
+
+                  // username textField
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'password',
+                      hintText: 'password',
+                      icon: Icon(Icons.security),
+                    ),
+                    autocorrect: false,
+                    autofocus: false,
+                    keyboardType: TextInputType.text,
+                    inputFormatters: <TextInputFormatter>[
+                      LengthLimitingTextInputFormatter(20),
+                    ],
+                    obscureText: false,
+                    focusNode: _passwordFocusNode,
+                  ),
+
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'password again',
+                      hintText: 'password',
+                      icon: Icon(Icons.security),
+                    ),
+                    autocorrect: false,
+                    autofocus: false,
+                    keyboardType: TextInputType.text,
+                    inputFormatters: <TextInputFormatter>[
+                      LengthLimitingTextInputFormatter(20),
+                    ],
+                    obscureText: false,
+                    focusNode: _password2FocusNode,
+                  ),
+                ],
+              ),
+            ),
+
             // sign in button
             Container(
               padding: EdgeInsets.all(10),
@@ -140,13 +158,14 @@ class CreateAccountState extends State<CreateAccountResult> {
             Container(
               padding: EdgeInsets.all(0),
               child: Text(
-                  createAccountMessage,
-                  style: TextStyle(
-                      color: Colors.red
-                  )
+                createAccountMessage,
+                style: TextStyle(
+                    color: Colors.red
+                )
               ),
             )
           ]
+        ),
       ),
     );
   }
