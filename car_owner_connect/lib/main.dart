@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'import/header.dart';
 import 'pages/createAccount.dart';
-import 'pages/talkMain.dart';
+import 'pages/main.dart';
 
 void main() {
   runApp(App());
@@ -171,7 +171,7 @@ class SignInState extends State<SignInResult> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TalkMain(),
+            builder: (context) => Main(),
           )
       );
     } else {

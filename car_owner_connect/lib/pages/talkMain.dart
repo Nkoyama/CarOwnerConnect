@@ -12,7 +12,6 @@ class TalkMain extends StatelessWidget {
         child: TalkMainPage(),
         color: Colors.lightBlue,
       ),
-      bottomNavigationBar: Footer()
     );
   }
 }
