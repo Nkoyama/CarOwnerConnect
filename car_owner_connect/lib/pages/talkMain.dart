@@ -29,7 +29,7 @@ class TalkMainPageState extends State<TalkMainPage> {
   var _colorController = TextEditingController();
   var _hiraganaController = TextEditingController();
   var _numberController_1 = TextEditingController();
-  var _numberContorller_2 = TextEditingController();
+  var _numberController_2 = TextEditingController();
 
   var _placeFocusNode = FocusNode();
   var _classificationFocusNode = FocusNode();
