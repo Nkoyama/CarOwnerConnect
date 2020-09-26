@@ -67,7 +67,7 @@ class TalkMainPage extends StatelessWidget {
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
                         color: Colors.black,
-                        width: 3.0,
+                        width: 2.0,
                       ),
                     ),
                     filled: true,
@@ -106,7 +106,7 @@ class TalkMainPage extends StatelessWidget {
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
                         color: Colors.black,
-                        width: 3.0,
+                        width: 2.0,
                       ),
                     ),
                     filled: true,
@@ -156,7 +156,7 @@ class TalkMainPage extends StatelessWidget {
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
                         color: Colors.black,
-                        width: 3.0,
+                        width: 2.0,
                       ),
                     ),
                     filled: true,
@@ -201,7 +201,7 @@ class TalkMainPage extends StatelessWidget {
                         borderRadius: new BorderRadius.circular(5.0),
                         borderSide: BorderSide(
                           color: Colors.black,
-                          width: 3.0,
+                          width: 2.0,
                         ),
                       ),
                       filled: true,
@@ -240,7 +240,7 @@ class TalkMainPage extends StatelessWidget {
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
                         color: Colors.black,
-                        width: 3.0,
+                        width: 2.0,
                       ),
                     ),
                     filled: true,
@@ -283,7 +283,7 @@ class TalkMainPage extends StatelessWidget {
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
                         color: Colors.black,
-                        width: 3.0,
+                        width: 2.0,
                       ),
                     ),
                     filled: true,
