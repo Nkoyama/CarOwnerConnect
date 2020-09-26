@@ -9,7 +9,7 @@ class ProfileMain extends StatelessWidget {
       appBar: Header(headerText: 'profile',),
       body: Container(
         child: ProfileMainPage(),
-        color: Colors.lightBlue,
+        color: Colors.orange,
       ),
     );
   }
@@ -18,8 +18,8 @@ class ProfileMain extends StatelessWidget {
 class ProfileMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
         children: [
 
           /* search */
@@ -44,7 +44,7 @@ class ProfileMainPage extends StatelessWidget {
                 child: Text(
                   "本拠",
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.black,
                     fontSize: 15.0
                   ),
                 ),
@@ -70,9 +70,11 @@ class ProfileMainPage extends StatelessWidget {
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
-                    fontSize: 15.0
+                    fontSize: 15.0,
                   )
                 ),
                 height: 30.0,
@@ -82,7 +84,7 @@ class ProfileMainPage extends StatelessWidget {
                 child: Text(
                   "分類番号",
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -107,6 +109,8 @@ class ProfileMainPage extends StatelessWidget {
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                     fontSize: 15.0
@@ -129,7 +133,7 @@ class ProfileMainPage extends StatelessWidget {
                 child: Text(
                   "色",
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -155,6 +159,8 @@ class ProfileMainPage extends StatelessWidget {
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                       fontSize: 15.0
@@ -173,7 +179,7 @@ class ProfileMainPage extends StatelessWidget {
                 child: Text(
                   "ひらがな",
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -198,6 +204,8 @@ class ProfileMainPage extends StatelessWidget {
                           width: 3.0,
                         ),
                       ),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
                     style: TextStyle(
                         fontSize: 15.0
@@ -210,7 +218,7 @@ class ProfileMainPage extends StatelessWidget {
                 child: Text(
                   "番号",
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -235,6 +243,8 @@ class ProfileMainPage extends StatelessWidget {
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                       fontSize: 15.0
@@ -251,7 +261,7 @@ class ProfileMainPage extends StatelessWidget {
                 child: Text(
                   "-",
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -276,6 +286,8 @@ class ProfileMainPage extends StatelessWidget {
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                       fontSize: 15.0
@@ -298,7 +310,7 @@ class ProfileMainPage extends StatelessWidget {
                 child: Text(
                     "車種",
                     style: TextStyle(
-                        color: Colors.deepOrange,
+                        color: Colors.black,
                         fontSize: 15.0
                     )
                 ),
@@ -324,6 +336,8 @@ class ProfileMainPage extends StatelessWidget {
                           width: 3.0,
                         ),
                       ),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
                     style: TextStyle(
                         fontSize: 15.0

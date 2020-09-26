@@ -9,7 +9,7 @@ class TalkMain extends StatelessWidget {
       appBar: Header(headerText: 'talk',),
       body: Container(
         child: TalkMainPage(),
-        color: Colors.lightBlue,
+        color: Colors.lightBlueAccent,
       ),
     );
   }
@@ -18,8 +18,8 @@ class TalkMain extends StatelessWidget {
 class TalkMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
         children: [
 
           /* search */
@@ -44,7 +44,7 @@ class TalkMainPage extends StatelessWidget {
                 child: Text(
                   "本拠",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 15.0
                   ),
                 ),
@@ -66,10 +66,12 @@ class TalkMainPage extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Colors.black,
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                     fontSize: 15.0
@@ -82,7 +84,7 @@ class TalkMainPage extends StatelessWidget {
                 child: Text(
                   "分類番号",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -96,17 +98,19 @@ class TalkMainPage extends StatelessWidget {
                     enabledBorder: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                      color: Colors.black,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  //Focusしているとき
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5.0),
+                    //Focusしているとき
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Colors.black,
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                     fontSize: 15.0
@@ -129,7 +133,7 @@ class TalkMainPage extends StatelessWidget {
                 child: Text(
                   "色",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -151,10 +155,12 @@ class TalkMainPage extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Colors.black,
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                       fontSize: 15.0
@@ -173,7 +179,7 @@ class TalkMainPage extends StatelessWidget {
                 child: Text(
                   "ひらがな",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -194,10 +200,12 @@ class TalkMainPage extends StatelessWidget {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: new BorderRadius.circular(5.0),
                         borderSide: BorderSide(
-                          color: Colors.blue,
+                          color: Colors.black,
                           width: 3.0,
                         ),
                       ),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
                     style: TextStyle(
                         fontSize: 15.0
@@ -210,7 +218,7 @@ class TalkMainPage extends StatelessWidget {
                 child: Text(
                   "番号",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -231,10 +239,12 @@ class TalkMainPage extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Colors.black,
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                       fontSize: 15.0
@@ -251,7 +261,7 @@ class TalkMainPage extends StatelessWidget {
                 child: Text(
                   "-",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                     fontSize: 15.0
                   )
                 ),
@@ -272,10 +282,12 @@ class TalkMainPage extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Colors.black,
                         width: 3.0,
                       ),
                     ),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
                   style: TextStyle(
                       fontSize: 15.0
@@ -303,7 +315,7 @@ class TalkMainPage extends StatelessWidget {
                   ),
                   onPressed: () {
                   },
-                  color: Colors.lightGreen,
+                  color: Colors.blueAccent,
                   textColor: Colors.white,
                 ),
                 height: 30.0,
