@@ -12,6 +12,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: Scaffold(
         appBar: Header(headerText: 'sing in'),
@@ -84,81 +85,93 @@ class SignInResult extends StatefulWidget {
 
 class SignInState extends State<SignInResult> {
   String username = '';
-  var _usernameController = TextEditingController();
   String password = '';
+
+  var _usernameController = TextEditingController();
   var _passwordController = TextEditingController();
+
+  var _usernameFocusNode = FocusNode();
+  var _passwordFocusNode = FocusNode();
 
   String signInMessage = "";
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget> [
+    return GestureDetector(
+      onTap: () {
+        _usernameFocusNode.unfocus();
+        _passwordFocusNode.unfocus();
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget> [
 
-          // username textField
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'Username',
-              hintText: 'Username',
-              icon: Icon(Icons.account_circle),
-            ),
-            controller: _usernameController,
-            autocorrect: false,
-            autofocus: false,
-            keyboardType: TextInputType.text,
-            inputFormatters: <TextInputFormatter>[
-              LengthLimitingTextInputFormatter(20),
-            ],
-            obscureText: false,
-          ),
-
-          // password textField
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'Password',
-              hintText: 'Password',
-              icon: Icon(Icons.security),
-            ),
-            controller: _passwordController,
-            autocorrect: false,
-            autofocus: false,
-            keyboardType: TextInputType.visiblePassword,
-            inputFormatters: <TextInputFormatter>[
-              LengthLimitingTextInputFormatter(12),
-            ],
-            obscureText: true,
-          ),
-
-          // sign in button
-          Container(
-            padding: EdgeInsets.all(10),
-            child: RaisedButton.icon(
-              icon: Icon(
-                Icons.lock_open,
-                color: Colors.white,
+            // username textField
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Username',
+                hintText: 'Username',
+                icon: Icon(Icons.account_circle),
               ),
-              label: Text("sign in"),
-              onPressed: () {
-                username = _usernameController.text;
-                password = _passwordController.text;
-                signIn();
-              },
-              color: Colors.lightGreen,
-              textColor: Colors.white,
+              controller: _usernameController,
+              autocorrect: false,
+              autofocus: false,
+              keyboardType: TextInputType.text,
+              inputFormatters: <TextInputFormatter>[
+                LengthLimitingTextInputFormatter(20),
+              ],
+              obscureText: false,
+              focusNode: _usernameFocusNode,
             ),
-          ),
 
-          Container(
-            padding: EdgeInsets.all(0),
-            child: Text(
-              signInMessage,
-              style: TextStyle(
-                color: Colors.red
-              )
+            // password textField
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Password',
+                hintText: 'Password',
+                icon: Icon(Icons.security),
+              ),
+              controller: _passwordController,
+              autocorrect: false,
+              autofocus: false,
+              keyboardType: TextInputType.visiblePassword,
+              inputFormatters: <TextInputFormatter>[
+                LengthLimitingTextInputFormatter(12),
+              ],
+              obscureText: true,
+              focusNode: _passwordFocusNode,
             ),
-          )
-        ]
+
+            // sign in button
+            Container(
+              padding: EdgeInsets.all(10),
+              child: RaisedButton.icon(
+                icon: Icon(
+                  Icons.lock_open,
+                  color: Colors.white,
+                ),
+                label: Text("sign in"),
+                onPressed: () {
+                  username = _usernameController.text;
+                  password = _passwordController.text;
+                  signIn();
+                },
+                color: Colors.lightGreen,
+                textColor: Colors.white,
+              ),
+            ),
+
+            Container(
+              padding: EdgeInsets.all(0),
+              child: Text(
+                signInMessage,
+                style: TextStyle(
+                  color: Colors.red
+                )
+              ),
+            )
+          ]
+        ),
       ),
     );
   }
