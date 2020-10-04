@@ -5,14 +5,14 @@ conn = MySQLdb.connect(
 	user='root',
 	passwd='CarOwnerConnect1!',
 	host='localhost',
-	db='mysql') 
+	db='car_owner_connect') 
 
 # カーソルを取得する
 cur = conn.cursor()
 
 # SQL（データベースを操作するコマンド）を実行する
 # userテーブルから、HostとUser列を取り出す
-sql = "select Host, User from user"
+sql = "select * from m_place"
 cur.execute(sql)
 
 # 実行結果を取得する
