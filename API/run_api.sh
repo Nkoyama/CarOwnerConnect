@@ -1,3 +1,3 @@
-export FLASK_APP=get_placeList.py
+export FLASK_APP=api.py
 
 flask run
