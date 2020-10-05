@@ -18,9 +18,16 @@ cur.execute(sql)
 # 実行結果を取得する
 rows = cur.fetchall()
 
-# 一行ずつ表示する
+placeList = ""
+i = 0
 for row in rows:
-	print(row)
+	if i == 0:
+		placeList = placeList + row[2]
+	else:
+		placeList = placeList + ", " + row[2]
+	i = i + 1
+
+print(placeList)
 
 cur.close
 conn.close
