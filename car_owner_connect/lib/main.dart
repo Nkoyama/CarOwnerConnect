@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'import/header.dart';
 import 'pages/createAccount.dart';
 import 'pages/mainFooter.dart';
+import 'pages/forgetPassword.dart';
 
 void main() {
   runApp(App());
@@ -63,10 +64,17 @@ class SignInPage extends StatelessWidget {
           // forget password button
           Container(
             child: FlatButton(
-              onPressed: () {},
               textColor: Colors.blue,
               padding: EdgeInsets.only(left:20.0, right:20.0),
               child: Text("forget username or password?"),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgetPassword(),
+                    )
+                );
+              },
             ),
           ),
         ],
