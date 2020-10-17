@@ -21,12 +21,19 @@ class ForgetPassword extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        "万が一、秘密の質問の答えが分からない場合は、公式Twitterにてご相談ください。",
+                        "万が一、秘密の質問の答えが分からない場合は、公式TwitterのDMにてご相談ください。",
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.all(10),
-                      child: OpenTwitter(),
+                      child: RaisedButton(
+                        child: Text("公式Twitter"),
+                        color: Colors.lightBlue,
+                        shape: StadiumBorder(),
+                        onPressed: () {
+                          launchTwitter();
+                        },
+                      ),
                     ),
                   ],
                 )
@@ -34,32 +41,12 @@ class ForgetPassword extends StatelessWidget {
         )
     );
   }
-}
-
-class OpenTwitter extends StatefulWidget {
-  OpenTwitter({Key key}) : super(key: key);
-
-  @override
-  OpenTwitterState createState() => new OpenTwitterState();
-}
-
-class OpenTwitterState extends State<OpenTwitter> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: InkWell(
-        child: Text("公式Twitter"),
-        onTap: launchTwitter,
-      )
-    );
-  }
 
   void launchTwitter() async {
     const url = 'https://www.google.com/';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (!(await canLaunch(url))) {
     } else {
-      throw 'Could not launch $url';
+      await launch(url);
     }
   }
 }
