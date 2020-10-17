@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'import/header.dart';
 import 'pages/createAccount.dart';
 import 'pages/mainFooter.dart';
@@ -22,6 +23,13 @@ class App extends StatelessWidget {
           color: Colors.white,
         ),
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale("ja"),
+      ],
     );
   }
 }

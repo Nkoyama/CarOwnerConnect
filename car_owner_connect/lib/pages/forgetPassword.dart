@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -64,6 +65,7 @@ class SecretQuestion extends StatefulWidget {
 
 class SecretQuestionState extends State<SecretQuestion> {
   var deliveryDate = "納車日を選択してください。";
+  var birthDate = "生年月日を選択してください。";
 
   Future<void> _selectDeliveryDate(BuildContext context) async {
     final DateTime selected = await showDatePicker(
@@ -71,10 +73,30 @@ class SecretQuestionState extends State<SecretQuestion> {
       initialDate: new DateTime.now(),
       firstDate: DateTime(2015),
       lastDate: new DateTime.now(),
+      locale: const Locale("ja"),
     );
     if (selected != null) {
       setState(() {
-        deliveryDate = (DateFormat.yMMMd()).format(selected);
+        initializeDateFormatting("ja_JP");
+        var formatter = new DateFormat('yyyy/MM/dd', "ja_JP");
+        deliveryDate = formatter.format(selected);
+      });
+    }
+  }
+
+  Future<void> _selectBirthDate(BuildContext context) async {
+    final DateTime selected = await showDatePicker(
+      context: context,
+      initialDate: new DateTime.now(),
+      firstDate: DateTime(1930),
+      lastDate: new DateTime.now(),
+      locale: const Locale("ja"),
+    );
+    if (selected != null) {
+      setState(() {
+        initializeDateFormatting("ja_JP");
+        var formatter = new DateFormat('yyyy/MM/dd', "ja_JP");
+        birthDate = formatter.format(selected);
       });
     }
   }
@@ -88,26 +110,46 @@ class SecretQuestionState extends State<SecretQuestion> {
           Row(
             children: <Widget> [
               Container(
-                padding: EdgeInsets.only(left:10.0, right: 5.0, top: 10.0, bottom: 10.0),
+                padding: EdgeInsets.only(left:20.0, right: 10.0, top:10.0, bottom:10.0),
                 child: Text(
                   "納車日"
-                )
+                ),
+                width: 90.0,
               ),
               Container(
-                padding: EdgeInsets.only(left:10.0, right: 5.0, top: 10.0, bottom: 10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color.fromARGB(255, 111, 207, 151), width: 2),
-                  borderRadius: BorderRadius.circular(5.0),
+                padding: EdgeInsets.all(5.0),
+                child: RaisedButton.icon(
+                  icon: Icon(
+                    Icons.date_range,
+                    color: Colors.blue,
+                  ),
+                  label: Text(deliveryDate),
+                  onPressed: () => _selectDeliveryDate(context),
                 ),
-                child: Text(
-                  deliveryDate
-                ),
-                width: 200.0,
               ),
-              IconButton(
-                padding: EdgeInsets.only(left:5.0, right: 10.0, top: 10.0, bottom: 10.0),
-                icon: Icon(Icons.date_range),
-                onPressed: () => _selectDeliveryDate(context),
+            ],
+          ),
+
+          // オーナーの生年月日
+          Row(
+            children: <Widget> [
+              Container(
+                padding: EdgeInsets.only(left:20.0, right: 10.0, top:10.0, bottom:10.0),
+                child: Text(
+                  "生年月日"
+                ),
+                width: 90.0,
+              ),
+              Container(
+                padding: EdgeInsets.all(5.0),
+                child: RaisedButton.icon(
+                  icon: Icon(
+                    Icons.date_range,
+                    color: Colors.blue,
+                  ),
+                  label: Text(birthDate),
+                  onPressed: () => _selectBirthDate(context),
+                ),
               ),
             ],
           )
