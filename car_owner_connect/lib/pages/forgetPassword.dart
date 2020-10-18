@@ -152,6 +152,46 @@ class SecretQuestionState extends State<SecretQuestion> {
                 ),
               ),
             ],
+          ),
+
+          // よくドライブに行く場所
+          Row(
+            children: <Widget> [
+              Container(
+                padding: EdgeInsets.only(left:20.0, right: 10.0, top:10.0, bottom:10.0),
+                child: Text(
+                    "よくドライブに行く場所"
+                ),
+              ),
+              Expanded(child: Container(
+                padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 3.0, bottom: 3.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    //Focusしていないとき
+                    enabledBorder: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
+                    //Focusしているとき
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  style: TextStyle(
+                      fontSize: 15.0
+                  ),
+                ),
+                height: 30.0,
+              ),),
+            ],
           )
         ]
       )
