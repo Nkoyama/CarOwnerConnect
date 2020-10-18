@@ -15,34 +15,33 @@ class TalkPage extends StatelessWidget {
 
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.camera_alt),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.photo),
-              onPressed: () => {},
-            ),
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '',
+        child: Expanded(child: Container(
+          padding: EdgeInsets.all(10.0),
+          child: TextField(
+            decoration: InputDecoration(
+              //Focusしていないとき
+              enabledBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(15.0),
+                borderSide: BorderSide(
+                  color: Colors.black,
                 ),
               ),
+              //Focusしているとき
+              focusedBorder: OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(15.0),
+                borderSide: BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+              filled: true,
+              fillColor: Colors.white,
             ),
-            IconButton(
-              icon: Icon(Icons.mic),
-              onPressed: () => {},
+            style: TextStyle(
+                fontSize: 15.0
             ),
-          ],
-        ),
+          ),
+          height: 50.0,
+        ),),
       ),
     );
   }
