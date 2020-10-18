@@ -11,37 +11,24 @@ class TalkPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Header(headerText: opponentText),
-      body: Container(
+      body: new Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          new Expanded(
+            child: new SingleChildScrollView(
 
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Expanded(child: Container(
-          padding: EdgeInsets.all(10.0),
-          child: TextField(
-            decoration: InputDecoration(
-              //Focusしていないとき
-              enabledBorder: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(15.0),
-                borderSide: BorderSide(
-                  color: Colors.black,
-                ),
-              ),
-              //Focusしているとき
-              focusedBorder: OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(15.0),
-                borderSide: BorderSide(
-                  color: Colors.black,
-                ),
-              ),
-              filled: true,
-              fillColor: Colors.white,
-            ),
-            style: TextStyle(
-                fontSize: 15.0
             ),
           ),
-          height: 50.0,
-        ),),
+          new Container(
+            color: Colors.white,
+            padding: new EdgeInsets.all(10.0),
+            child: new TextField(
+              decoration: new InputDecoration(
+                hintText: 'message',
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
