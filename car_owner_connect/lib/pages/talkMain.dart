@@ -379,9 +379,8 @@ class TalkMainPageState extends State<TalkMainPage> {
             color: Colors.grey
           ),
 
-          Container(
+          new Expanded(
             child: TalkHistory(),
-            height: 200,
           ),
         ],
       ),
@@ -406,6 +405,7 @@ class TalkHistoryState extends State<TalkHistory> {
     "fff",
     "ggg",
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
