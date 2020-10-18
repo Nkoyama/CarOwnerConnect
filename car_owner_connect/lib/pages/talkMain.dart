@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../import/header.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TalkMain extends StatelessWidget {
   @override
@@ -40,9 +41,9 @@ class TalkMainPageState extends State<TalkMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
+    return Scaffold(
+      body: Column(
+        children: <Widget> [
 
           /* search */
           Container(
@@ -365,23 +366,86 @@ class TalkMainPageState extends State<TalkMainPage> {
 
           /* history */
           Container(
-              constraints: BoxConstraints.expand(height: 25.0),
-              padding: EdgeInsets.only(left: 5, right: 5),
-              child: Text(
-                  '履歴',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  )
-              ),
-              color: Colors.grey
+            constraints: BoxConstraints.expand(height: 25.0),
+            padding: EdgeInsets.only(left: 5, right: 5),
+            child: Text(
+                '履歴',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                )
+            ),
+            color: Colors.grey
           ),
 
-          SingleChildScrollView(
-
+          Container(
+            child: TalkHistory(),
+            height: 200,
           ),
         ],
       ),
+    );
+  }
+}
+
+class TalkHistory extends StatefulWidget {
+  TalkHistory({Key key}) : super(key: key);
+
+  @override
+  TalkHistoryState createState() => new TalkHistoryState();
+}
+
+class TalkHistoryState extends State<TalkHistory> {
+  @override
+  Widget build(BuildContext context) {
+    const historyData = ["aaa"
+                        ,"bbb"
+                        ,"ccc"
+                        ,"ddd"
+                        ,"eee"
+                        ,"fff"
+                        ,"ggg"
+                        ];
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: historyData.length,
+        itemBuilder: (context, int index) {
+          return Padding(
+            padding: EdgeInsets.all(0.0),
+            child: Slidable(
+              actionPane: SlidableDrawerActionPane(),
+              actionExtentRatio: 0.20,
+              child: Container(
+                color: Colors.white,
+                child: ListTile(
+                  title: Text(
+                    historyData[index],
+                  ),
+                  subtitle: Text("サブタイトル"),
+                ),
+              ),
+              secondaryActions: <Widget>[
+                IconSlideAction(
+                  color: Colors.black45,
+                  iconWidget: Text(
+                    "非表示",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () => {}, // _showSnackBar('More'),
+                ),
+                IconSlideAction(
+                  color: Colors.red,
+                  iconWidget: Text(
+                    "削除",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () => {}, // _showSnackBar('Delete'),
+                ),
+              ],
+            )
+          );
+        },
+      )
     );
   }
 }

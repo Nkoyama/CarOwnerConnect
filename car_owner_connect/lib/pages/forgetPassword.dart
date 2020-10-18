@@ -68,7 +68,6 @@ class SecretQuestionState extends State<SecretQuestion> {
   var birthDate = "生年月日を選択してください。";
   String favoriteDriveSpot = '';
   var _favoriteSpotController = TextEditingController();
-  var _favoriteSpotFocusNode = FocusNode();
 
   Future<void> _selectDeliveryDate(BuildContext context) async {
     final DateTime selected = await showDatePicker(
