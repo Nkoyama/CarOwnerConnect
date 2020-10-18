@@ -66,6 +66,9 @@ class SecretQuestion extends StatefulWidget {
 class SecretQuestionState extends State<SecretQuestion> {
   var deliveryDate = "納車日を選択してください。";
   var birthDate = "生年月日を選択してください。";
+  String favoriteDriveSpot = '';
+  var _favoriteSpotController = TextEditingController();
+  var _favoriteSpotFocusNode = FocusNode();
 
   Future<void> _selectDeliveryDate(BuildContext context) async {
     final DateTime selected = await showDatePicker(
@@ -174,6 +177,7 @@ class SecretQuestionState extends State<SecretQuestion> {
                     filled: true,
                     fillColor: Color.fromARGB(255, 150, 255, 200),
                   ),
+                  controller: _favoriteSpotController,
                   style: TextStyle(
                       fontSize: 15.0
                   ),
@@ -205,6 +209,70 @@ class SecretQuestionState extends State<SecretQuestion> {
   /// 秘密の質問「決定」ボタンタップ時の処理
   /// * 秘密の質問をサーバに送信し、結果を受け取る
   void _secretQuestionSubmit() {
-
+    /* 入力チェック */
+    //納車日
+    if(deliveryDate == "納車日を選択してください。" || deliveryDate.isEmpty) {
+      //error message
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+//            title: Text("必須項目エラー"),
+            content: Text("納車日を選択してください。"),
+            actions: <Widget>[
+              // ボタン領域
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+    //生年月日
+    if(birthDate == "生年月日を選択してください。" || birthDate.isEmpty) {
+      //error message
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+//            title: Text("必須項目エラー"),
+            content: Text("生年月日を選択してください。"),
+            actions: <Widget>[
+              // ボタン領域
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+    //よくドライブに行く場所
+    favoriteDriveSpot = _favoriteSpotController.text;
+    if(favoriteDriveSpot == "" || favoriteDriveSpot.isEmpty) {
+      //error message
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+//            title: Text("必須項目エラー"),
+            content: Text("よくドライブに行く場所を入力してください。"),
+            actions: <Widget>[
+              // ボタン領域
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
   }
 }
