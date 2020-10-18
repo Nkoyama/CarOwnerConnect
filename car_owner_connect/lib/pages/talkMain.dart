@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../import/header.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'talkPage.dart';
 
 class TalkMain extends StatelessWidget {
   @override
@@ -422,6 +423,11 @@ class TalkHistoryState extends State<TalkHistory> {
                     historyData[index],
                   ),
                   subtitle: Text("サブタイトル"),
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => talkPage()))
+                  },
                 ),
               ),
               secondaryActions: <Widget>[
