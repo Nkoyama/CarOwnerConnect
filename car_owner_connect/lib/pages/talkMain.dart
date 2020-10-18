@@ -25,6 +25,15 @@ class TalkMainPage extends StatefulWidget {
 }
 
 class TalkMainPageState extends State<TalkMainPage> {
+  List<String> colorList = [
+    "色を選択してください。",
+    "白(文字色：緑)",
+    "緑(文字色：白)",
+    "黄色(文字色：黒)",
+    "黒(文字色：黄色)"
+  ];
+  String selectedColor = "色を選択してください。";
+
   var _placeController = TextEditingController();
   var _classificationController = TextEditingController();
   var _colorController = TextEditingController();
@@ -170,36 +179,52 @@ class TalkMainPageState extends State<TalkMainPage> {
                 height: 30.0,
                 width: 60.0,
               ),
-              Expanded(child: Container(
+              Container(
                 padding: EdgeInsets.only(
                     left: 5.0, right: 10.0, top: 3.0, bottom: 1.5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                    //Focusしているとき
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 2.0,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  style: TextStyle(
-                      fontSize: 15.0
-                  ),
-                  focusNode: _colorFocusNode,
-                ),
                 height: 30.0,
-              ),),
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: new DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: selectedColor,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          selectedColor = newValue;
+                        });
+                      },
+                      selectedItemBuilder: (context) {
+                        return colorList.map((String item) {
+                          return Text(
+                            item,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                            ),
+                          );
+                        }).toList();
+                      },
+                      items: colorList.map((String item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: item == selectedColor
+                                ? TextStyle(fontWeight: FontWeight.bold)
+                                : TextStyle(fontWeight: FontWeight.normal),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                )
+              ),
             ],
           ),
 
