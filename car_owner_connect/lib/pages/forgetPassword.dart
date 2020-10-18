@@ -111,9 +111,7 @@ class SecretQuestionState extends State<SecretQuestion> {
             children: <Widget> [
               Container(
                 padding: EdgeInsets.only(left:20.0, right: 10.0, top:10.0, bottom:10.0),
-                child: Text(
-                  "納車日"
-                ),
+                child: Text("納車日"),
                 width: 90.0,
               ),
               Container(
@@ -121,10 +119,11 @@ class SecretQuestionState extends State<SecretQuestion> {
                 child: RaisedButton.icon(
                   icon: Icon(
                     Icons.date_range,
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),
                   label: Text(deliveryDate),
                   onPressed: () => _selectDeliveryDate(context),
+                  color: Color.fromARGB(255, 150, 255, 200),
                 ),
               ),
             ],
@@ -135,9 +134,7 @@ class SecretQuestionState extends State<SecretQuestion> {
             children: <Widget> [
               Container(
                 padding: EdgeInsets.only(left:20.0, right: 10.0, top:10.0, bottom:10.0),
-                child: Text(
-                  "生年月日"
-                ),
+                child: Text("生年月日"),
                 width: 90.0,
               ),
               Container(
@@ -145,10 +142,11 @@ class SecretQuestionState extends State<SecretQuestion> {
                 child: RaisedButton.icon(
                   icon: Icon(
                     Icons.date_range,
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),
                   label: Text(birthDate),
                   onPressed: () => _selectBirthDate(context),
+                  color: Color.fromARGB(255, 150, 255, 200),
                 ),
               ),
             ],
@@ -159,21 +157,12 @@ class SecretQuestionState extends State<SecretQuestion> {
             children: <Widget> [
               Container(
                 padding: EdgeInsets.only(left:20.0, right: 10.0, top:10.0, bottom:10.0),
-                child: Text(
-                    "よくドライブに行く場所"
-                ),
+                child: Text("よくドライブに行く場所"),
               ),
               Expanded(child: Container(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 3.0, bottom: 3.0),
+                padding: EdgeInsets.only(left: 5.0, right: 10.0, top: 10.0, bottom: 10.0),
                 child: TextField(
                   decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
                     //Focusしているとき
                     focusedBorder: OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(5.0),
@@ -183,18 +172,39 @@ class SecretQuestionState extends State<SecretQuestion> {
                       ),
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: Color.fromARGB(255, 150, 255, 200),
                   ),
                   style: TextStyle(
                       fontSize: 15.0
                   ),
                 ),
-                height: 30.0,
+                height: 50.0,
               ),),
             ],
-          )
+          ),
+
+          // decide button
+          Container(
+            padding: EdgeInsets.all(10.0),
+            child: RaisedButton.icon(
+              icon: Icon(
+                Icons.directions_car,
+                color: Colors.black,
+              ),
+              label: Text("決定"),
+              shape: StadiumBorder(),
+              onPressed: () => _secretQuestionSubmit(),
+              color: Color.fromARGB(255, 111, 207, 151),
+            ),
+          ),
         ]
       )
     );
+  }
+
+  /// 秘密の質問「決定」ボタンタップ時の処理
+  /// * 秘密の質問をサーバに送信し、結果を受け取る
+  void _secretQuestionSubmit() {
+
   }
 }
