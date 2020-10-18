@@ -220,7 +220,6 @@ class SecretQuestionState extends State<SecretQuestion> {
 //            title: Text("必須項目エラー"),
             content: Text("納車日を選択してください。"),
             actions: <Widget>[
-              // ボタン領域
               FlatButton(
                 child: Text("OK"),
                 onPressed: () => Navigator.pop(context),
@@ -241,7 +240,6 @@ class SecretQuestionState extends State<SecretQuestion> {
 //            title: Text("必須項目エラー"),
             content: Text("生年月日を選択してください。"),
             actions: <Widget>[
-              // ボタン領域
               FlatButton(
                 child: Text("OK"),
                 onPressed: () => Navigator.pop(context),
@@ -263,7 +261,6 @@ class SecretQuestionState extends State<SecretQuestion> {
 //            title: Text("必須項目エラー"),
             content: Text("よくドライブに行く場所を入力してください。"),
             actions: <Widget>[
-              // ボタン領域
               FlatButton(
                 child: Text("OK"),
                 onPressed: () => Navigator.pop(context),
@@ -274,5 +271,6 @@ class SecretQuestionState extends State<SecretQuestion> {
       );
       return;
     }
+    /* 入力チェック完了 */
   }
 }

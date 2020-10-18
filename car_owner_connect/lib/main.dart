@@ -109,8 +109,6 @@ class SignInState extends State<SignInResult> {
   var _usernameFocusNode = FocusNode();
   var _passwordFocusNode = FocusNode();
 
-  String signInMessage = "";
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -176,16 +174,6 @@ class SignInState extends State<SignInResult> {
                 textColor: Colors.white,
               ),
             ),
-
-            Container(
-              padding: EdgeInsets.all(0),
-              child: Text(
-                signInMessage,
-                style: TextStyle(
-                  color: Colors.red
-                )
-              ),
-            )
           ]
         ),
       ),
@@ -194,9 +182,6 @@ class SignInState extends State<SignInResult> {
 
   void signIn() {
     if(this.username.length > 0 && this.password.length > 0) {
-      setState(() {
-        this.signInMessage = "";
-      });
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -204,9 +189,22 @@ class SignInState extends State<SignInResult> {
           )
       );
     } else {
-      setState(() {
-        this.signInMessage = "failed to sign in.";
-      });
+      //error message
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+//            title: Text("sign in error"),
+            content: Text("サインインに失敗しました。\nUsernameとPasswordを確認してください。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 }
