@@ -10,7 +10,7 @@ class TalkMain extends StatelessWidget {
     return Scaffold(
       appBar: Header(headerText: 'talk',),
       body: Container(
-        child: TalkMainPage(title: ''),
+        child: TalkMainPage(),
         color: Colors.lightBlueAccent,
       ),
     );
@@ -18,8 +18,7 @@ class TalkMain extends StatelessWidget {
 }
 
 class TalkMainPage extends StatefulWidget {
-  TalkMainPage({Key key, this.title}) : super(key: key);
-  final String title;
+  TalkMainPage({Key key}) : super(key: key);
 
   @override
   TalkMainPageState createState() => new TalkMainPageState();
@@ -51,11 +50,11 @@ class TalkMainPageState extends State<TalkMainPage> {
               constraints: BoxConstraints.expand(height: 25.0),
               padding: EdgeInsets.only(left: 5, right: 5),
               child: Text(
-                  '検索',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  )
+                '検索',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                )
               ),
               color: Colors.grey
           ),
@@ -217,7 +216,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                         fontSize: 15.0
                     )
                 ),
-                height: 30.0,
+                height: 33.5,
               ),
               Expanded(child: Container(
                 padding: EdgeInsets.only(
@@ -247,7 +246,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                     ),
                     focusNode: _hiraganaFocusNode,
                 ),
-                height: 30.0,
+                height: 33.5,
               ),),
               Container(
                 padding: EdgeInsets.only(
@@ -259,7 +258,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                         fontSize: 15.0
                     )
                 ),
-                height: 30.0,
+                height: 33.5,
               ),
               Expanded(child: Container(
                 padding: EdgeInsets.only(
@@ -293,7 +292,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                     LengthLimitingTextInputFormatter(2),
                   ],
                 ),
-                height: 30.0,
+                height: 33.5,
               ),),
               Container(
                 padding: EdgeInsets.only(
@@ -305,7 +304,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                         fontSize: 15.0
                     )
                 ),
-                height: 30.0,
+                height: 33.5,
               ),
               Expanded(child: Container(
                 padding: EdgeInsets.only(
@@ -339,7 +338,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                     LengthLimitingTextInputFormatter(2),
                   ],
                 ),
-                height: 30.0,
+                height: 33.5,
               ),),
 
               // search button
@@ -360,7 +359,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                   color: Colors.blueAccent,
                   textColor: Colors.white,
                 ),
-                height: 30.0,
+                height: 33.5,
               ),
             ],
           ),
@@ -384,6 +383,7 @@ class TalkMainPageState extends State<TalkMainPage> {
           ),
         ],
       ),
+      backgroundColor: Colors.lightBlueAccent,
     );
   }
 }

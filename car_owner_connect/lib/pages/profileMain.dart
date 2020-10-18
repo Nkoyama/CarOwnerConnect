@@ -314,7 +314,7 @@ class ProfileMainPage extends StatelessWidget {
                         fontSize: 15.0
                     )
                 ),
-                height: 30.0,
+                height: 33.5,
                 width: 60.0,
               ),
               Expanded(child: Container(
@@ -343,7 +343,7 @@ class ProfileMainPage extends StatelessWidget {
                         fontSize: 15.0
                     )
                 ),
-                height: 30.0,
+                height: 33.5,
               ),),
 
               // save button
@@ -364,7 +364,7 @@ class ProfileMainPage extends StatelessWidget {
                   color: Colors.deepOrange,
                   textColor: Colors.white,
                 ),
-                height: 30.0,
+                height: 33.5,
               ),
             ],
           ),
