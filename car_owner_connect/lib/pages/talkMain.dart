@@ -397,16 +397,17 @@ class TalkHistory extends StatefulWidget {
 }
 
 class TalkHistoryState extends State<TalkHistory> {
+  static const historyData = [
+    "品川 300 む ･2-17",
+    "bbb",
+    "ccc",
+    "ddd",
+    "eee",
+    "fff",
+    "ggg",
+  ];
   @override
   Widget build(BuildContext context) {
-    const historyData = ["aaa"
-                        ,"bbb"
-                        ,"ccc"
-                        ,"ddd"
-                        ,"eee"
-                        ,"fff"
-                        ,"ggg"
-                        ];
     return Scaffold(
       body: ListView.builder(
         itemCount: historyData.length,
@@ -426,7 +427,12 @@ class TalkHistoryState extends State<TalkHistory> {
                   onTap: () => {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => talkPage()))
+                      MaterialPageRoute(
+                        builder: (context) => TalkPage(
+                          opponentText: historyData[index]
+                        )
+                      ),
+                    ),
                   },
                 ),
               ),

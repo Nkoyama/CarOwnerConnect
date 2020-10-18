@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import '../import/header.dart';
 
-class talkPage extends StatelessWidget {
+class TalkPage extends StatelessWidget {
+  String opponentText;
+  TalkPage({String opponentText}) {
+    this.opponentText = opponentText;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header(headerText: 'talk'),
+      appBar: Header(headerText: opponentText),
       body: Container(
 
       )
