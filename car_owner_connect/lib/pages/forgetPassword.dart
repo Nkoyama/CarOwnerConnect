@@ -123,7 +123,12 @@ class SecretQuestionState extends State<SecretQuestion> {
                     Icons.date_range,
                     color: Colors.black,
                   ),
-                  label: Text(deliveryDate),
+                  label: Text(
+                      deliveryDate,
+                      style: TextStyle(
+                          fontSize: 12.0
+                      )
+                  ),
                   onPressed: () => _selectDeliveryDate(context),
                   color: Color.fromARGB(255, 150, 255, 200),
                 ),
@@ -146,7 +151,12 @@ class SecretQuestionState extends State<SecretQuestion> {
                     Icons.date_range,
                     color: Colors.black,
                   ),
-                  label: Text(birthDate),
+                  label: Text(
+                    birthDate,
+                    style: TextStyle(
+                        fontSize: 12.0
+                    ),
+                  ),
                   onPressed: () => _selectBirthDate(context),
                   color: Color.fromARGB(255, 150, 255, 200),
                 ),
