@@ -2,8 +2,8 @@ class M_LOGIN_INFO {
   String username;
   String password;
 
-  M_LOGIN_INFO({this.username, @required this.password});
-  M_LOGIN_INFO.newTodo() {
+  M_LOGIN_INFO({this.username, this.password});
+  M_LOGIN_INFO.newLoginInfo() {
     username = "";
     password = "";
   }

@@ -3,10 +3,12 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'm_login_info.dart';
 
 class DBProvider_m_login_info {
   DBProvider_m_login_info._();
   static final DBProvider_m_login_info db = DBProvider_m_login_info._();
+  static final tableName = "M_LOGIN_INFO";
 
   static Database _database;
 
@@ -35,5 +37,39 @@ class DBProvider_m_login_info {
         PASSWORD  text
       '''
     );
+  }
+
+  createLoginInfo(M_LOGIN_INFO m_login_info) async {
+    final db = await database;
+    var res = await db.insert(tableName, m_login_info.toMap());
+    return res;
+  }
+
+  getAllLoginInfo() async {
+    final db = await database;
+    var res = await db.query(tableName);
+    List<M_LOGIN_INFO> loginInfoList = res.isNotEmpty ? res.map((c) => M_LOGIN_INFO.fromMap(c)).toList() : [];
+    return loginInfoList;
+  }
+
+  updateLoginInfo(M_LOGIN_INFO m_login_info) async {
+    final db = await database;
+    var res = await db.update(
+      tableName,
+      m_login_info.toMap(),
+      where: "username = ?",
+      whereArgs: [m_login_info.username]
+    );
+    return res;
+  }
+
+  deleteLoginInfo(String username) async {
+    final db = await database;
+    var res = await db.delete(
+      tableName,
+      where: "username = ?",
+      whereArgs: [username]
+    );
+    return res;
   }
 }
