@@ -48,7 +48,8 @@ class DBProvider_m_login_info {
   getAllLoginInfo() async {
     final db = await database;
     var res = await db.query(tableName);
-    List<M_LOGIN_INFO> loginInfoList = res.isNotEmpty ? res.map((c) => M_LOGIN_INFO.fromMap(c)).toList() : [];
+    List<M_LOGIN_INFO> loginInfoList = res.isNotEmpty ? res.map((c)
+        => M_LOGIN_INFO.fromMap(c)).toList() : [];
     return loginInfoList;
   }
 
