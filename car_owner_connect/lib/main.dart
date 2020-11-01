@@ -5,6 +5,7 @@ import 'import/header.dart';
 import 'pages/createAccount.dart';
 import 'pages/mainFooter.dart';
 import 'pages/forgetPassword.dart';
+import 'localDB/bloc_m_login_info.dart';
 
 void main() {
   runApp(App());
@@ -178,6 +179,16 @@ class SignInState extends State<SignInResult> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // ログイン画面描画直後に行う処理
+      _usernameController.text = "test_username";
+      _passwordController.text = "test_password";
+    });
   }
 
   void signIn() {
