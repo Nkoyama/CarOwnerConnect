@@ -17,19 +17,19 @@ class DBProvider_m_login_info {
       return _database;
 
     // DBがなかったら作る
-    _database = await initM_LOGIN_INFO();
+    _database = await initDB();
     return _database;
   }
 
-  Future<Database> initM_LOGIN_INFO() async {
+  Future<Database> initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
     String path = join(documentsDirectory.path, "CaroConLocal.db");
 
-    return await openDatabase(path, version: 1, onCreate: createM_LOGIN_INFO);
+    return await openDatabase(path, version: 1, onCreate: createTable);
   }
 
-  Future<void> createM_LOGIN_INFO(Database db, int version) async {
+  Future<void> createTable(Database db, int version) async {
     return await db.execute(
       '''
       create table M_LOGIN_INFO (
@@ -39,9 +39,9 @@ class DBProvider_m_login_info {
     );
   }
 
-  createLoginInfo(M_LOGIN_INFO m_login_info) async {
+  createLoginInfo(M_LOGIN_INFO loginInfo) async {
     final db = await database;
-    var res = await db.insert(tableName, m_login_info.toMap());
+    var res = await db.insert(tableName, loginInfo.toMap());
     return res;
   }
 
@@ -53,13 +53,13 @@ class DBProvider_m_login_info {
     return loginInfoList;
   }
 
-  updateLoginInfo(M_LOGIN_INFO m_login_info) async {
+  updateLoginInfo(M_LOGIN_INFO loginInfo) async {
     final db = await database;
     var res = await db.update(
       tableName,
-      m_login_info.toMap(),
+      loginInfo.toMap(),
       where: "username = ?",
-      whereArgs: [m_login_info.username]
+      whereArgs: [loginInfo.username]
     );
     return res;
   }

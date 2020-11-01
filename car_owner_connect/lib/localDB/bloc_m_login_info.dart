@@ -18,13 +18,13 @@ class Bloc_m_login_info {
     loginInfoController.close();
   }
 
-  create(M_LOGIN_INFO m_login_info) {
-    DBProvider_m_login_info.db.createLoginInfo(m_login_info);
+  create(M_LOGIN_INFO loginInfo) {
+    DBProvider_m_login_info.db.createLoginInfo(loginInfo);
     getLoginInfo();
   }
 
-  update(M_LOGIN_INFO m_login_info) {
-    DBProvider_m_login_info.db.updateLoginInfo(m_login_info);
+  update(M_LOGIN_INFO loginInfo) {
+    DBProvider_m_login_info.db.updateLoginInfo(loginInfo);
     getLoginInfo();
   }
   
