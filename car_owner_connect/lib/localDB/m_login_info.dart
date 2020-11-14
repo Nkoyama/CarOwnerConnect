@@ -8,13 +8,17 @@ class M_LOGIN_INFO {
     password = "";
   }
 
-  factory M_LOGIN_INFO.fromMap(Map<String, dynamic> json) => M_LOGIN_INFO(
-    username: json["username"],
-    password: json["password"],
-  );
+  factory M_LOGIN_INFO.fromMap(Map<String, dynamic> json) {
+    return M_LOGIN_INFO(
+      username: json["username"],
+      password: json["password"],
+    );
+  }
 
-  Map<String, dynamic> toMap() => {
-    "username": username,
-    "password": password,
-  };
+  Map<String, dynamic> toMap() {
+    return {
+      "username": username,
+      "password": password,
+    };
+  }
 }
