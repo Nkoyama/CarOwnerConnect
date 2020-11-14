@@ -6,6 +6,7 @@ import 'pages/createAccount.dart';
 import 'pages/mainFooter.dart';
 import 'pages/forgetPassword.dart';
 import 'localDB/bloc_m_login_info.dart';
+import 'localDB/m_login_info.dart';
 
 void main() {
   runApp(App());
@@ -110,6 +111,8 @@ class SignInState extends State<SignInResult> {
   var _usernameFocusNode = FocusNode();
   var _passwordFocusNode = FocusNode();
 
+  var loginInfoUpdateFlg = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -181,18 +184,31 @@ class SignInState extends State<SignInResult> {
     );
   }
 
+  /// ログイン画面描画直後に行う処理
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // ログイン画面描画直後に行う処理
-      _usernameController.text = "test_username";
-      _passwordController.text = "test_password";
+      // 端末内に保存されたログイン情報を取得
+      Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
+      List<M_LOGIN_INFO> savedLoginInfoList = blocMLoginInfo.getLoginInfo();
+      // 保存されたログイン情報があれば1つ目を自動で入力
+      if(savedLoginInfoList.length > 0) {
+        _usernameController.text = savedLoginInfoList[0].username;
+        _passwordController.text = savedLoginInfoList[0].password;
+      }
     });
   }
 
   void signIn() {
     if(this.username.length > 0 && this.password.length > 0) {
+      if(loginInfoUpdateFlg) {
+        M_LOGIN_INFO loginInfo;
+        loginInfo.username = this.username;
+        loginInfo.password = this.password;
+        Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
+        blocMLoginInfo.create(loginInfo);
+      }
       Navigator.push(
           context,
           MaterialPageRoute(

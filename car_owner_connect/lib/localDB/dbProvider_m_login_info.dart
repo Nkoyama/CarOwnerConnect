@@ -35,6 +35,7 @@ class DBProvider_m_login_info {
       create table M_LOGIN_INFO (
         USERNAME  text  primary key,
         PASSWORD  text
+      )
       '''
     );
   }
@@ -48,8 +49,12 @@ class DBProvider_m_login_info {
   getAllLoginInfo() async {
     final db = await database;
     var res = await db.query(tableName);
-    List<M_LOGIN_INFO> loginInfoList = res.isNotEmpty ? res.map((c)
-        => M_LOGIN_INFO.fromMap(c)).toList() : [];
+    List<M_LOGIN_INFO> loginInfoList;
+    if (res.isNotEmpty) {
+      loginInfoList = res.map((c) => M_LOGIN_INFO.fromMap(c)).toList();
+    } else {
+      loginInfoList = [];
+    }
     return loginInfoList;
   }
 
