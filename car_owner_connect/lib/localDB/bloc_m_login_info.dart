@@ -8,6 +8,7 @@ class Bloc_m_login_info {
 
   getLoginInfo() async {
     loginInfoController.sink.add(await DBProvider_m_login_info.db.getAllLoginInfo());
+    return await DBProvider_m_login_info.db.getAllLoginInfo();
   }
 
   Bloc_m_login_info() {

@@ -42,25 +42,23 @@ class DBProvider_m_login_info {
 
   createLoginInfo(M_LOGIN_INFO loginInfo) async {
     final db = await database;
-    print(loginInfo);
     var res = await db.insert(tableName, loginInfo.toMap());
     return res;
   }
 
   getAllLoginInfo() async {
     final db = await database;
-    print(db);
-    var res = await db.query(tableName);
-    print(res);
-    List<M_LOGIN_INFO> loginInfoList;
-    print(loginInfoList);
-    if (res.isNotEmpty) {
-      loginInfoList = res.map((c) => M_LOGIN_INFO.fromMap(c)).toList();
-      print(loginInfoList);
+    final List<Map<String, dynamic>> maps = await db.query(tableName);
+    if (maps.isNotEmpty) {
+      return List.generate(maps.length, (i) {
+        return M_LOGIN_INFO(
+          username: maps[i]['USERNAME'],
+          password: maps[i]['PASSWORD'],
+        );
+      });
     } else {
-      loginInfoList = [];
+      return null;
     }
-    return loginInfoList;
   }
 
   updateLoginInfo(M_LOGIN_INFO loginInfo) async {

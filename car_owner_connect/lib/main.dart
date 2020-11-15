@@ -191,12 +191,14 @@ class SignInState extends State<SignInResult> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // 端末内に保存されたログイン情報を取得
       Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
-      List<M_LOGIN_INFO> savedLoginInfoList = blocMLoginInfo.getLoginInfo();
-      // 保存されたログイン情報があれば1つ目を自動で入力
-      if(savedLoginInfoList.length > 0) {
-        _usernameController.text = savedLoginInfoList[0].username;
-        _passwordController.text = savedLoginInfoList[0].password;
-      }
+      var savedLoginInfoList = blocMLoginInfo.getLoginInfo();
+      savedLoginInfoList.then((loginInfo) {
+        // 保存されたログイン情報を自動で入力
+        if (loginInfo is List<M_LOGIN_INFO>) {
+          _usernameController.text = loginInfo[0].username;
+          _passwordController.text = loginInfo[0].password;
+        }
+      });
     });
   }
 
