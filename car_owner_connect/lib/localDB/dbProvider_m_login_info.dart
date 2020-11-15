@@ -42,16 +42,21 @@ class DBProvider_m_login_info {
 
   createLoginInfo(M_LOGIN_INFO loginInfo) async {
     final db = await database;
+    print(loginInfo);
     var res = await db.insert(tableName, loginInfo.toMap());
     return res;
   }
 
   getAllLoginInfo() async {
     final db = await database;
+    print(db);
     var res = await db.query(tableName);
+    print(res);
     List<M_LOGIN_INFO> loginInfoList;
+    print(loginInfoList);
     if (res.isNotEmpty) {
       loginInfoList = res.map((c) => M_LOGIN_INFO.fromMap(c)).toList();
+      print(loginInfoList);
     } else {
       loginInfoList = [];
     }

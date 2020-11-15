@@ -170,8 +170,8 @@ class SignInState extends State<SignInResult> {
                 ),
                 label: Text("sign in"),
                 onPressed: () {
-                  username = _usernameController.text;
-                  password = _passwordController.text;
+                  this.username = _usernameController.text;
+                  this.password = _passwordController.text;
                   signIn();
                 },
                 color: Colors.lightGreen,
@@ -202,10 +202,12 @@ class SignInState extends State<SignInResult> {
 
   void signIn() {
     if(this.username.length > 0 && this.password.length > 0) {
+      loginInfoUpdateFlg = true;
       if(loginInfoUpdateFlg) {
-        M_LOGIN_INFO loginInfo;
-        loginInfo.username = this.username;
-        loginInfo.password = this.password;
+        final loginInfo = M_LOGIN_INFO(
+          username: this.username,
+          password: this.password
+        );
         Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
         blocMLoginInfo.create(loginInfo);
       }
