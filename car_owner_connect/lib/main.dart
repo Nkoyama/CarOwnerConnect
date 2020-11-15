@@ -111,7 +111,8 @@ class SignInState extends State<SignInResult> {
   var _usernameFocusNode = FocusNode();
   var _passwordFocusNode = FocusNode();
 
-  var loginInfoUpdateFlg = false;
+  String savedUsername = '';
+  String savedPassword = '';
 
   @override
   Widget build(BuildContext context) {
@@ -197,36 +198,71 @@ class SignInState extends State<SignInResult> {
         if (loginInfo is List<M_LOGIN_INFO>) {
           _usernameController.text = loginInfo[0].username;
           _passwordController.text = loginInfo[0].password;
+          savedUsername = loginInfo[0].username;
+          savedPassword = loginInfo[0].password;
         }
       });
     });
   }
 
+  /// sign in
   void signIn() {
+    // 入力チェック
     if(this.username.length > 0 && this.password.length > 0) {
-      loginInfoUpdateFlg = true;
-      if(loginInfoUpdateFlg) {
+      // UsernameとPasswordが保存されたデータと一致する
+      if(savedUsername == this.username && savedPassword == this.password) {
+        print('ログインデータ変更なし');
+        // 画面遷移のみ
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Main(),
+            )
+        );
+      }
+      // Usernameのみ保存されたデータの場合
+      else if(savedUsername == this.username) {
+        // Passwordをupdate
         final loginInfo = M_LOGIN_INFO(
-          username: this.username,
-          password: this.password
+            username: this.username,
+            password: this.password
         );
         Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
-        blocMLoginInfo.create(loginInfo);
-      }
-      Navigator.push(
+        blocMLoginInfo.update(loginInfo);
+        print('Password更新');
+        // 画面遷移
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Main(),
           )
-      );
+        );
+      }
+      // 保存されたデータと一致しない場合
+      else {
+        // 新しいログイン情報を保存
+        final loginInfo = M_LOGIN_INFO(
+            username: this.username,
+            password: this.password
+        );
+        Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
+        blocMLoginInfo.create(loginInfo);
+        print('新規ログインデータ作成');
+        // 画面遷移
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Main(),
+            )
+        );
+      }
     } else {
       //error message
       showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
-//            title: Text("sign in error"),
-            content: Text("サインインに失敗しました。\nUsernameとPasswordを確認してください。"),
+            content: Text("UsernameまたはPasswordが入力されていません。"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
