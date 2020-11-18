@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for
 import MySQLdb
 app = Flask(__name__)
 
@@ -13,12 +13,14 @@ def get_placeList():
 	#get cursor
 	cur = conn.cursor()
 	#sql
-	sql	= '''select
+	sql	= '''
+			select
 				*
 			from
 				m_place
 			order by
-				area_cd'''
+				area_cd
+		'''
 	cur.execute(sql)
 	rows = cur.fetchall()
 
@@ -36,3 +38,6 @@ def get_placeList():
 	conn.close
 
 	return placeList
+
+if __name__ == "__main__":
+    app.run(port=80, debug=True)
