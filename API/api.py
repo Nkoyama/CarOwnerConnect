@@ -2,6 +2,10 @@ from flask import Flask, url_for
 import MySQLdb
 app = Flask(__name__)
 
+@app.route("/")
+def	test():
+	return "test"
+
 @app.route("/api/placeList/", methods=["GET"])
 def get_placeList():
 	#database connect
