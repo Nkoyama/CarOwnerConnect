@@ -4,7 +4,6 @@ import '../import/header.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'talkPage.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class TalkMain extends StatelessWidget {
   @override
@@ -27,7 +26,9 @@ class TalkMainPage extends StatefulWidget {
 }
 
 class TalkMainPageState extends State<TalkMainPage> {
-  List<String> placeList;
+  List<String> placeList = [
+    "本拠選択"
+  ];
 
   List<String> colorList = [
     "色を選択してください。",
@@ -37,6 +38,7 @@ class TalkMainPageState extends State<TalkMainPage> {
     "黒(文字色：黄色)"
   ];
   String selectedColor = "色を選択してください。";
+  String selectedPlace = "本拠選択";
 
   var _placeController = TextEditingController();
   var _classificationController = TextEditingController();
@@ -88,36 +90,54 @@ class TalkMainPageState extends State<TalkMainPage> {
                 height: 30.0,
                 width: 60.0,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0, bottom: 1.5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
+              Expanded(
+                child: Container(
+                    padding: EdgeInsets.only(
+                        left: 5.0, right: 10.0, top: 3.0, bottom: 1.5),
+                    height: 30.0,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black),
                       ),
-                    ),
-                    //Focusしているとき
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 2.0,
+                      child: new DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedPlace,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              selectedPlace = newValue;
+                            });
+                          },
+                          selectedItemBuilder: (context) {
+                            return placeList.map((String item) {
+                              return Text(
+                                item,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15.0,
+                                ),
+                              );
+                            }).toList();
+                          },
+                          items: placeList.map((String item) {
+                            return DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: item == selectedPlace
+                                    ? TextStyle(fontWeight: FontWeight.bold)
+                                    : TextStyle(fontWeight: FontWeight.normal),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  style: TextStyle(
-                      fontSize: 15.0
-                  ),
-                  focusNode: _placeFocusNode,
-                  controller: _placeController,
+                    )
                 ),
-                height: 30.0,
-              ),),
+              ),
               Container(
                 padding: EdgeInsets.only(
                     left: 5.0, right: 5.0, top: 5.0, bottom: 1.5),
@@ -130,40 +150,42 @@ class TalkMainPageState extends State<TalkMainPage> {
                 ),
                 height: 30.0,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(
-                    left: 5.0, right: 10.0, top: 5.0, bottom: 1.5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: 5.0, right: 10.0, top: 5.0, bottom: 1.5),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      //Focusしていないとき
+                      enabledBorder: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(5.0),
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    //Focusしているとき
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 2.0,
+                      //Focusしているとき
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(5.0),
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 2.0,
+                        ),
                       ),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
-                    filled: true,
-                    fillColor: Colors.white,
+                    style: TextStyle(
+                        fontSize: 15.0
+                    ),
+                    focusNode: _classificationFocusNode,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      LengthLimitingTextInputFormatter(3),
+                    ],
                   ),
-                  style: TextStyle(
-                      fontSize: 15.0
-                  ),
-                  focusNode: _classificationFocusNode,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(3),
-                  ],
+                  height: 30.0,
                 ),
-                height: 30.0,
-              ),),
+              ),
             ],
           ),
 
@@ -418,14 +440,18 @@ class TalkMainPageState extends State<TalkMainPage> {
 
   void getPlaceList() async {
     http.get('http://160.16.217.34/api/placeList/').then((response) {
-      print("Response body: ${response.body}");
+      setState(() {
+        placeList = response.body.toString().split(', ');
+        placeList.insert(0, "本拠選択");
+        print(placeList);
+      });
     });
   }
 
   @override
   void initState() {
-    placeList = [];
     getPlaceList();
+    print(placeList);
     super.initState();
   }
 }
