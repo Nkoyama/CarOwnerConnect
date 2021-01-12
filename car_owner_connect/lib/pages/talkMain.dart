@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import '../import/header.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'talkPage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TalkMain extends StatelessWidget {
   @override
@@ -25,6 +27,8 @@ class TalkMainPage extends StatefulWidget {
 }
 
 class TalkMainPageState extends State<TalkMainPage> {
+  List<String> placeList;
+
   List<String> colorList = [
     "色を選択してください。",
     "白(文字色：緑)",
@@ -410,6 +414,19 @@ class TalkMainPageState extends State<TalkMainPage> {
       ),
       backgroundColor: Colors.lightBlueAccent,
     );
+  }
+
+  void getPlaceList() async {
+    http.get('http://160.16.217.34/api/placeList/').then((response) {
+      print("Response body: ${response.body}");
+    });
+  }
+
+  @override
+  void initState() {
+    placeList = [];
+    getPlaceList();
+    super.initState();
   }
 }
 
