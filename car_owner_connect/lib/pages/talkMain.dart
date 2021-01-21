@@ -200,7 +200,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                       fontSize: 15.0
                   ),
                   focusNode: _classificationFocusNode,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   inputFormatters: <TextInputFormatter>[
                     LengthLimitingTextInputFormatter(3),
                   ],
@@ -491,7 +491,11 @@ class TalkMainPageState extends State<TalkMainPage> {
     http.get('http://160.16.217.34/api/placeList/').then((response) {
       setState(() {
         placeList = response.body.toString().split(', ');
-        placeList.insert(0, "本拠選択");
+        if(placeList.length > 0) {
+          placeList.insert(0, "本拠選択");
+        } else {
+          placeList = ["error"];
+        }
       });
     });
   }
