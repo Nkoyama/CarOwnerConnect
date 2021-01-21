@@ -173,41 +173,40 @@ class TalkMainPageState extends State<TalkMainPage> {
                 ),
                 height: 30.0,
               ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(
-                      left: 5.0, right: 10.0, top: 5.0, bottom: 1.5),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      //Focusしていないとき
-                      enabledBorder: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                        ),
+              Container(
+                padding: EdgeInsets.only(
+                    left: 5.0, right: 10.0, top: 5.0, bottom: 1.5),
+                child: TextField(
+                  decoration: InputDecoration(
+                    //Focusしていないとき
+                    enabledBorder: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.black,
                       ),
-                      //Focusしているとき
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 2.0,
-                        ),
+                    ),
+                    //Focusしているとき
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                        width: 2.0,
                       ),
-                      filled: true,
-                      fillColor: Colors.white,
                     ),
-                    style: TextStyle(
-                        fontSize: 15.0
-                    ),
-                    focusNode: _classificationFocusNode,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      LengthLimitingTextInputFormatter(3),
-                    ],
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
-                  height: 30.0,
+                  style: TextStyle(
+                      fontSize: 15.0
+                  ),
+                  focusNode: _classificationFocusNode,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    LengthLimitingTextInputFormatter(3),
+                  ],
                 ),
+                height: 30.0,
+                width: 70.0,
               ),
             ],
           ),
@@ -338,48 +337,48 @@ class TalkMainPageState extends State<TalkMainPage> {
               Expanded(
                 child: Container(
                   padding: EdgeInsets.only(left: 5.0, right: 1.0, top: 3.0, bottom: 5.0),
-                    height: 33.5,
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.black),
-                      ),
-                      child: new DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: selectedNumber_1,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              selectedNumber_1 = newValue;
-                            });
-                          },
-                          selectedItemBuilder: (context) {
-                            return numberList_1.map((String item) {
-                              return Text(
-                                item,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15.0,
-                                ),
-                              );
-                            }).toList();
-                          },
-                          items: numberList_1.map((String item) {
-                            return DropdownMenuItem(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: item == selectedNumber_1
-                                    ? TextStyle(fontWeight: FontWeight.bold)
-                                    : TextStyle(fontWeight: FontWeight.normal),
+                  height: 33.5,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: new DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedNumber_1,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            selectedNumber_1 = newValue;
+                          });
+                        },
+                        selectedItemBuilder: (context) {
+                          return numberList_1.map((String item) {
+                            return Text(
+                              item,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
                               ),
                             );
-                          }).toList(),
-                        ),
+                          }).toList();
+                        },
+                        items: numberList_1.map((String item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: item == selectedNumber_1
+                                  ? TextStyle(fontWeight: FontWeight.bold)
+                                  : TextStyle(fontWeight: FontWeight.normal),
+                            ),
+                          );
+                        }).toList(),
                       ),
-                    )
+                    ),
+                  )
                 ),
               ),
               Container(
@@ -394,39 +393,53 @@ class TalkMainPageState extends State<TalkMainPage> {
                 ),
                 height: 33.5,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(
-                    left: 1.0, right: 5.0, top: 3.0, bottom: 5.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left: 1.0, right: 5.0, top: 3.0, bottom: 5.0),
+                  height: 33.5,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: new DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedNumber_2,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            selectedNumber_2 = newValue;
+                          });
+                        },
+                        selectedItemBuilder: (context) {
+                          return numberList_2.map((String item) {
+                            return Text(
+                              item,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                              ),
+                            );
+                          }).toList();
+                        },
+                        items: numberList_2.map((String item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: item == selectedNumber_2
+                                  ? TextStyle(fontWeight: FontWeight.bold)
+                                  : TextStyle(fontWeight: FontWeight.normal),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-                    //Focusしているとき
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 2.0,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  style: TextStyle(
-                      fontSize: 15.0
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(2),
-                  ],
+                  )
                 ),
-                height: 33.5,
-              ),),
+              ),
 
               // search button
               Container(
