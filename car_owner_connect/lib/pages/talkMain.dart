@@ -66,8 +66,10 @@ class TalkMainPageState extends State<TalkMainPage> {
     "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
   ];
 
-  String selectedColor = "色を選択してください。";
   String selectedPlace = "本拠選択";
+  String classificationNumber = "";
+  String selectedColor = "色を選択してください。";
+  String hiragana = "";
   String selectedNumber_1 = "";
   String selectedNumber_2 = "";
 
@@ -120,7 +122,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                     height: 30.0,
                     child: Container(
                       padding: EdgeInsets.only(
-                          left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                          left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
@@ -199,6 +201,12 @@ class TalkMainPageState extends State<TalkMainPage> {
                   style: TextStyle(
                       fontSize: 15.0
                   ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      classificationNumber = newValue;
+                      classificationNumber = classificationNumber.toUpperCase();
+                    });
+                  },
                   focusNode: _classificationFocusNode,
                   keyboardType: TextInputType.text,
                   inputFormatters: <TextInputFormatter>[
@@ -206,7 +214,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                   ],
                 ),
                 height: 30.0,
-                width: 70.0,
+                width: 75.0,
               ),
             ],
           ),
@@ -233,7 +241,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                 height: 30.0,
                 child: Container(
                   padding: EdgeInsets.only(
-                      left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                      left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
@@ -293,7 +301,7 @@ class TalkMainPageState extends State<TalkMainPage> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: 5.0, right: 5.0, top: 3.0, bottom: 5.0),
+                    left: 3.0, right: 3.0, top: 3.0, bottom: 5.0),
                 child: TextField(
                     decoration: InputDecoration(
                       //Focusしていないとき
@@ -317,10 +325,15 @@ class TalkMainPageState extends State<TalkMainPage> {
                     style: TextStyle(
                         fontSize: 15.0
                     ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        hiragana = newValue;
+                      });
+                    },
                     focusNode: _hiraganaFocusNode,
                 ),
                 height: 33.5,
-                width: 40.0,
+                width: 50.0,
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -340,7 +353,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                   height: 33.5,
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                        left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -399,7 +412,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                   height: 33.5,
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: 5.0, right: 10.0, top: 1.0, bottom: 1.0),
+                        left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -455,7 +468,9 @@ class TalkMainPageState extends State<TalkMainPage> {
                   shape: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    search();
+                  },
                   color: Colors.blueAccent,
                   textColor: Colors.white,
                 ),
@@ -485,6 +500,179 @@ class TalkMainPageState extends State<TalkMainPage> {
       ),
       backgroundColor: Colors.lightBlueAccent,
     );
+  }
+
+  void search() {
+    // check place
+    if(selectedPlace == "本拠選択" || selectedPlace == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("本拠が選択されていません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check classification number
+    var classificationNumberRegExp = new RegExp(r'^[1-9][0-9][A-Z0-9]?$');
+    var zenkakuRegExp = new RegExp(r'[０-９Ａ-Ｚ]');
+    if(classificationNumber == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("分類番号が入力されていません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(!classificationNumberRegExp.hasMatch(classificationNumber)) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("分類番号が不正です。\n半角2~3桁で入力してください"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check color
+    if(selectedColor == "色を選択してください。" || selectedColor == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("色が選択されていません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check hiragana
+    var hiraganaRegExp = new RegExp(r'^[あ-ん]$');
+    if(hiragana == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("平仮名が入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(!hiraganaRegExp.hasMatch(hiragana)) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("平仮名が不正です。平仮名1文字だけ入力してください。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check number
+    if(selectedNumber_1 == "" || selectedNumber_2 == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("番号が選択されていません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(selectedNumber_1 != "••" && selectedNumber_2.substring(0, 1) == "•") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("上2桁が「••」以外の場合に下2桁に「•」で始まる番号を指定することはできません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(selectedNumber_1 == "••" && selectedNumber_2.substring(0, 1) == "0") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("上2桁が「••」の場合に下2桁に「0」で始まる番号を指定することはできません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
   }
 
   void getPlaceList() async {
