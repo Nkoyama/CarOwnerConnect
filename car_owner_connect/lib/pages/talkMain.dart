@@ -524,7 +524,7 @@ class TalkMainPageState extends State<TalkMainPage> {
     }
 
     // check classification number
-    var classificationNumberRegExp = new RegExp(r'^[1-9][0-9][A-Z0-9]?$');
+    var classificationNumberRegExp = new RegExp(r'^[1-9][A-Z0-9][A-Z0-9]?$');
     var zenkakuRegExp = new RegExp(r'[０-９Ａ-Ｚ]');
     if(classificationNumber == "") {
       showDialog(
