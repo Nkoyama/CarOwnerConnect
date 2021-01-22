@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../import/globalConstant.dart' as gc;
 import '../import/header.dart';
 
 class ProfileMain extends StatelessWidget {
@@ -15,7 +16,27 @@ class ProfileMain extends StatelessWidget {
   }
 }
 
-class ProfileMainPage extends StatelessWidget {
+class ProfileMainPage extends StatefulWidget {
+  ProfileMainPage({Key key}) : super(key: key);
+
+  @override
+  ProfileMainPageState createState() => new ProfileMainPageState();
+}
+
+class ProfileMainPageState extends State<ProfileMainPage> {
+  List<String> placeList = gc.placeList;
+  List<String> colorList = gc.colorList;
+  List<String> numberList_1 = gc.numberList_1;
+  List<String> numberList_2 = gc.numberList_2;
+
+  String selectedPlace = "本拠選択";
+  String classificationNumber = "";
+  String selectedColor = "色を選択してください。";
+  String hiragana = "";
+  String selectedNumber_1 = "";
+  String selectedNumber_2 = "";
+  String vehicleType = "";
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -177,7 +198,7 @@ class ProfileMainPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left:10.0, right:5.0, top:3.0, bottom:1.5),
                 child: Text(
-                  "ひらがな",
+                  "平仮名",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0
