@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../import/globalConstant.dart' as gc;
 import '../import/header.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'talkPage.dart';
@@ -26,45 +27,10 @@ class TalkMainPage extends StatefulWidget {
 }
 
 class TalkMainPageState extends State<TalkMainPage> {
-  List<String> placeList = [
-    "本拠選択"
-  ];
-
-  List<String> colorList = [
-    "色を選択してください。",
-    "白(文字色：緑)",
-    "緑(文字色：白)",
-    "黄色(文字色：黒)",
-    "黒(文字色：黄色)"
-  ];
-
-  List<String> numberList_1 = [
-    "",
-    "••", "•1", "•2", "•3", "•4", "•5", "•6", "•7", "•8", "•9",
-    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-    "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-    "40", "41", "42", "43", "44", "45", "46", "47", "48", "49",
-    "50", "51", "52", "53", "54", "55", "56", "57", "58", "59",
-    "60", "61", "62", "63", "64", "65", "66", "67", "69", "60",
-    "70", "71", "72", "73", "74", "75", "76", "77", "78", "79",
-    "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
-    "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
-  ];
-  List<String> numberList_2 = [
-    "",
-    "•1", "•2", "•3", "•4", "•5", "•6", "•7", "•8", "•9",
-    "01", "02", "03", "04", "05", "06", "07", "08", "09",
-    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-    "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-    "40", "41", "42", "43", "44", "45", "46", "47", "48", "49",
-    "50", "51", "52", "53", "54", "55", "56", "57", "58", "59",
-    "60", "61", "62", "63", "64", "65", "66", "67", "69", "60",
-    "70", "71", "72", "73", "74", "75", "76", "77", "78", "79",
-    "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
-    "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
-  ];
+  List<String> placeList = gc.placeList;
+  List<String> colorList = gc.colorList;
+  List<String> numberList_1 = gc.numberList_1;
+  List<String> numberList_2 = gc.numberList_2;
 
   String selectedPlace = "本拠選択";
   String classificationNumber = "";
@@ -525,7 +491,6 @@ class TalkMainPageState extends State<TalkMainPage> {
 
     // check classification number
     var classificationNumberRegExp = new RegExp(r'^[1-9][A-Z0-9][A-Z0-9]?$');
-    var zenkakuRegExp = new RegExp(r'[０-９Ａ-Ｚ]');
     if(classificationNumber == "") {
       showDialog(
         context: context,
