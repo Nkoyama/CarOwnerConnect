@@ -510,7 +510,7 @@ class TalkMainPageState extends State<TalkMainPage> {
         builder: (_) {
           return AlertDialog(
             title: Text("検索条件不足"),
-            content: Text("本拠が選択されていません"),
+            content: Text("本拠が選択されていません。"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
@@ -532,7 +532,7 @@ class TalkMainPageState extends State<TalkMainPage> {
         builder: (_) {
           return AlertDialog(
             title: Text("検索条件不足"),
-            content: Text("分類番号が入力されていません"),
+            content: Text("分類番号が入力されていません。"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
@@ -549,7 +549,7 @@ class TalkMainPageState extends State<TalkMainPage> {
         builder: (_) {
           return AlertDialog(
             title: Text("検索条件不正"),
-            content: Text("分類番号が不正です。\n半角2~3桁で入力してください"),
+            content: Text("分類番号が不正です。\n半角2~3桁で入力してください。"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
@@ -569,7 +569,7 @@ class TalkMainPageState extends State<TalkMainPage> {
         builder: (_) {
           return AlertDialog(
             title: Text("検索条件不足"),
-            content: Text("色が選択されていません"),
+            content: Text("色が選択されていません。"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
@@ -607,7 +607,8 @@ class TalkMainPageState extends State<TalkMainPage> {
         builder: (_) {
           return AlertDialog(
             title: Text("検索条件不正"),
-            content: Text("平仮名が不正です。平仮名1文字だけ入力してください。"),
+            content: Text("平仮名が不正です。平仮名1文字だけ入力してください。\n"
+                + "※アルファベットの場合は半角で入力してください。"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
