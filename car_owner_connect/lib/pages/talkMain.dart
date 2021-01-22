@@ -618,6 +618,23 @@ class TalkMainPageState extends State<TalkMainPage> {
         },
       );
       return;
+    } else if(hiragana == "お" || hiragana == "し" || hiragana == "へ" || hiragana == "ん") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("平仮名が不正です。「お」「し」「へ」「ん」はナンバープレートに使用されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
     }
 
     // check number
