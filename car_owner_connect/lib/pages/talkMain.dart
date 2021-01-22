@@ -583,7 +583,7 @@ class TalkMainPageState extends State<TalkMainPage> {
     }
 
     // check hiragana
-    var hiraganaRegExp = new RegExp(r'^[あ-ん]$');
+    var hiraganaRegExp = new RegExp(r'^[あ-んABEHKMTY]$');
     if(hiragana == "") {
       showDialog(
         context: context,
