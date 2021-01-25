@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../import/globalConstant.dart' as gc;
 import '../import/header.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileMain extends StatelessWidget {
   @override
@@ -37,13 +38,21 @@ class ProfileMainPageState extends State<ProfileMainPage> {
   String selectedNumber_2 = "";
   String vehicleType = "";
 
+  var _classificationController = TextEditingController();
+  var _hiraganaController = TextEditingController();
+  var _vehicleTypeController = TextEditingController();
+
+  var _classificationFocusNode = FocusNode();
+  var _hiraganaFocusNode = FocusNode();
+  var _vehicleTypeFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
 
-          /* search */
+          /* basic information */
           Container(
             constraints: BoxConstraints.expand(height: 25.0),
             padding: EdgeInsets.only(left:5, right:5),
@@ -72,8 +81,68 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                 height: 30.0,
                 width: 60.0,
               ),
-              Expanded(child: Container(
+              Expanded(
+                child: Container(
+                    padding: EdgeInsets.only(
+                        left: 5.0, right: 10.0, top: 3.0, bottom: 1.5),
+                    height: 30.0,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: new DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedPlace,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              selectedPlace = newValue;
+                            });
+                          },
+                          selectedItemBuilder: (context) {
+                            return placeList.map((String item) {
+                              return Text(
+                                item,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15.0,
+                                ),
+                              );
+                            }).toList();
+                          },
+                          items: placeList.map((String item) {
+                            return DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: item == selectedPlace
+                                    ? TextStyle(fontWeight: FontWeight.bold)
+                                    : TextStyle(fontWeight: FontWeight.normal),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    )
+                ),
+              ),
+              Container(
                 padding: EdgeInsets.only(left:5.0, right:5.0, top:5.0, bottom:1.5),
+                child: Text(
+                  "分類番号",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0
+                  )
+                ),
+                height: 30.0,
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                    left: 5.0, right: 10.0, top: 5.0, bottom: 1.5),
                 child: TextField(
                   decoration: InputDecoration(
                     //Focusしていないとき
@@ -87,7 +156,7 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(5.0),
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Colors.black,
                         width: 2.0,
                       ),
                     ),
@@ -95,54 +164,23 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                     fillColor: Colors.white,
                   ),
                   style: TextStyle(
-                    fontSize: 15.0,
-                  )
-                ),
-                height: 30.0,
-              ),),
-              Container(
-                padding: EdgeInsets.only(left:5.0, right:5.0, top:5.0, bottom:1.5),
-                child: Text(
-                  "分類番号",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0
-                  )
-                ),
-                height: 30.0,
-              ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(left:5.0, right:10.0, top:5.0, bottom:1.5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
+                      fontSize: 15.0
                   ),
-                  //Focusしているとき
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 2.0,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  style: TextStyle(
-                    fontSize: 15.0
-                  ),
-                  keyboardType: TextInputType.number,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      classificationNumber = newValue;
+                      classificationNumber = classificationNumber.toUpperCase();
+                    });
+                  },
+                  focusNode: _classificationFocusNode,
+                  keyboardType: TextInputType.text,
                   inputFormatters: <TextInputFormatter>[
                     LengthLimitingTextInputFormatter(3),
                   ],
                 ),
                 height: 30.0,
-              ),),
+                width: 75.0,
+              ),
             ],
           ),
 
@@ -161,34 +199,52 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                 height: 30.0,
                 width: 60.0,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(left:5.0, right:10.0, top:3.0, bottom:1.5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
+              Container(
+                  padding: EdgeInsets.only(
+                      left: 5.0, right: 10.0, top: 3.0, bottom: 1.5),
+                  height: 30.0,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: new DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedColor,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            selectedColor = newValue;
+                          });
+                        },
+                        selectedItemBuilder: (context) {
+                          return colorList.map((String item) {
+                            return Text(
+                              item,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                              ),
+                            );
+                          }).toList();
+                        },
+                        items: colorList.map((String item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: item == selectedColor
+                                  ? TextStyle(fontWeight: FontWeight.bold)
+                                  : TextStyle(fontWeight: FontWeight.normal),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-                    //Focusしているとき
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 2.0,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  style: TextStyle(
-                      fontSize: 15.0
                   )
-                ),
-                height: 30.0,
-              ),),
+              ),
             ],
           ),
 
@@ -206,34 +262,42 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                 ),
                 height: 30.0,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(left:5.0, right:5.0, top:3.0, bottom:1.5),
+              Container(
+                padding: EdgeInsets.only(
+                    left: 3.0, right: 3.0, top: 3.0, bottom: 1.5),
                 child: TextField(
-                    decoration: InputDecoration(
-                      //Focusしていないとき
-                      enabledBorder: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                        ),
+                  decoration: InputDecoration(
+                    //Focusしていないとき
+                    enabledBorder: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.black,
                       ),
-                      //Focusしているとき
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                          width: 2.0,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
                     ),
-                    style: TextStyle(
-                        fontSize: 15.0
-                    )
+                    //Focusしているとき
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  style: TextStyle(
+                      fontSize: 15.0
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      hiragana = newValue;
+                    });
+                  },
+                  focusNode: _hiraganaFocusNode,
                 ),
                 height: 30.0,
-              ),),
+                width: 50.0,
+              ),
               Container(
                 padding: EdgeInsets.only(left:5.0, right:5.0, top:3.0, bottom:1.5),
                 child: Text(
@@ -245,38 +309,53 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                 ),
                 height: 30.0,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(left:5.0, right:1.0, top:3.0, bottom:1.5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
+              Expanded(
+                child: Container(
+                    padding: EdgeInsets.only(left: 5.0, right: 1.0, top: 3.0, bottom: 1.5),
+                    height: 30.0,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black),
                       ),
-                    ),
-                    //Focusしているとき
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 2.0,
+                      child: new DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedNumber_1,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              selectedNumber_1 = newValue;
+                            });
+                          },
+                          selectedItemBuilder: (context) {
+                            return numberList_1.map((String item) {
+                              return Text(
+                                item,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15.0,
+                                ),
+                              );
+                            }).toList();
+                          },
+                          items: numberList_1.map((String item) {
+                            return DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: item == selectedNumber_1
+                                    ? TextStyle(fontWeight: FontWeight.bold)
+                                    : TextStyle(fontWeight: FontWeight.normal),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  style: TextStyle(
-                      fontSize: 15.0
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(2),
-                  ],
+                    )
                 ),
-                height: 30.0,
-              ),),
+              ),
               Container(
                 padding: EdgeInsets.only(left:0.0, right:0.0, top:3.0, bottom:1.5),
                 child: Text(
@@ -288,38 +367,53 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                 ),
                 height: 30.0,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(left:1.0, right:5.0, top:3.0, bottom:1.5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    //Focusしていないとき
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
+              Expanded(
+                child: Container(
+                    padding: EdgeInsets.only(left: 1.0, right: 5.0, top: 3.0, bottom: 1.5),
+                    height: 30.0,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          left: 5.0, right: 0.0, top: 1.0, bottom: 1.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black),
                       ),
-                    ),
-                    //Focusしているとき
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 2.0,
+                      child: new DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedNumber_2,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              selectedNumber_2 = newValue;
+                            });
+                          },
+                          selectedItemBuilder: (context) {
+                            return numberList_2.map((String item) {
+                              return Text(
+                                item,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15.0,
+                                ),
+                              );
+                            }).toList();
+                          },
+                          items: numberList_2.map((String item) {
+                            return DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: item == selectedNumber_2
+                                    ? TextStyle(fontWeight: FontWeight.bold)
+                                    : TextStyle(fontWeight: FontWeight.normal),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  style: TextStyle(
-                      fontSize: 15.0
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(2),
-                  ],
+                    )
                 ),
-                height: 30.0,
-              ),),
+              ),
             ],
           ),
 
@@ -338,9 +432,10 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                 height: 33.5,
                 width: 60.0,
               ),
-              Expanded(child: Container(
-                padding: EdgeInsets.only(left:5.0, right:10.0, top:3.0, bottom:5.0),
-                child: TextField(
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left:5.0, right:10.0, top:3.0, bottom:5.0),
+                  child: TextField(
                     decoration: InputDecoration(
                       //Focusしていないとき
                       enabledBorder: new OutlineInputBorder(
@@ -362,10 +457,12 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                     ),
                     style: TextStyle(
                         fontSize: 15.0
-                    )
+                    ),
+                    focusNode: _vehicleTypeFocusNode,
+                  ),
+                  height: 33.5,
                 ),
-                height: 33.5,
-              ),),
+              ),
 
               // save button
               Container(
@@ -381,6 +478,7 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                   onPressed: () {
+                    save();
                   },
                   color: Colors.deepOrange,
                   textColor: Colors.white,
@@ -410,5 +508,214 @@ class ProfileMainPageState extends State<ProfileMainPage> {
         ],
       )
     );
+  }
+
+  void save() {
+    // check place
+    if(selectedPlace == "本拠選択" || selectedPlace == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("本拠が選択されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check classification number
+    var classificationNumberRegExp = new RegExp(r'^[1-9][A-Z0-9][A-Z0-9]?$');
+    if(classificationNumber == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("分類番号が入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(!classificationNumberRegExp.hasMatch(classificationNumber)) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("分類番号が不正です。\n半角2~3桁で入力してください。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check color
+    if(selectedColor == "色を選択してください。" || selectedColor == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("色が選択されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check hiragana
+    var hiraganaRegExp = new RegExp(r'^[あ-んABEHKMTY]$');
+    if(hiragana == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("平仮名が入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(!hiraganaRegExp.hasMatch(hiragana)) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("平仮名が不正です。平仮名1文字だけ入力してください。\n"
+                + "※アルファベットの場合は半角で入力してください。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(hiragana == "お" || hiragana == "し" || hiragana == "へ" || hiragana == "ん") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("平仮名が不正です。「お」「し」「へ」「ん」はナンバープレートに使用されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check number
+    if(selectedNumber_1 == "" || selectedNumber_2 == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不足"),
+            content: Text("番号が選択されていません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(selectedNumber_1 != "••" && selectedNumber_2.substring(0, 1) == "•") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("上2桁が「••」以外の場合に下2桁に「•」で始まる番号を指定することはできません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(selectedNumber_1 == "••" && selectedNumber_2.substring(0, 1) == "0") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("検索条件不正"),
+            content: Text("上2桁が「••」の場合に下2桁に「0」で始まる番号を指定することはできません"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+  }
+
+  void getPlaceList() async {
+    http.get('http://160.16.217.34/api/placeList/').then((response) {
+      setState(() {
+        placeList = response.body.toString().split(', ');
+        if(placeList.length > 0) {
+          placeList.insert(0, "本拠選択");
+        } else {
+          placeList = ["error"];
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    getPlaceList();
+    super.initState();
   }
 }
