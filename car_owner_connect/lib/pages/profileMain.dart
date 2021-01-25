@@ -36,15 +36,15 @@ class ProfileMainPageState extends State<ProfileMainPage> {
   String hiragana = "";
   String selectedNumber_1 = "";
   String selectedNumber_2 = "";
-  String vehicleType = "";
+  String carModel = "";
 
   var _classificationController = TextEditingController();
   var _hiraganaController = TextEditingController();
-  var _vehicleTypeController = TextEditingController();
+  var _carModelController = TextEditingController();
 
   var _classificationFocusNode = FocusNode();
   var _hiraganaFocusNode = FocusNode();
-  var _vehicleTypeFocusNode = FocusNode();
+  var _carModelFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -261,10 +261,10 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                   )
                 ),
                 height: 30.0,
+                width: 60.0,
               ),
               Container(
-                padding: EdgeInsets.only(
-                    left: 3.0, right: 3.0, top: 3.0, bottom: 1.5),
+                padding: EdgeInsets.only(left: 5.0, right: 3.0, top: 3.0, bottom: 1.5),
                 child: TextField(
                   decoration: InputDecoration(
                     //Focusしていないとき
@@ -458,7 +458,7 @@ class ProfileMainPageState extends State<ProfileMainPage> {
                     style: TextStyle(
                         fontSize: 15.0
                     ),
-                    focusNode: _vehicleTypeFocusNode,
+                    focusNode: _carModelFocusNode,
                   ),
                   height: 33.5,
                 ),
