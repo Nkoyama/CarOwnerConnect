@@ -1,33 +1,23 @@
 from flask import Flask, url_for
 import MySQLdb
-app = Flask(__name__)
 
-@app.route("/")
-def	test():
-	return "test"
+from common import connect_mysql
+import m_place
+
+app = Flask(__name__)
 
 @app.route("/api/placeList/", methods=["GET"])
 def get_placeList():
-	#database connect
-	conn = MySQLdb.connect(
-		user='root',
-		passwd='CarOwnerConnect1!',
-		host='localhost',
-		db='car_owner_connect')
-	#get cursor
-	cur = conn.cursor()
-	#sql
-	sql	= '''
-			select
-				*
-			from
-				m_place
-			order by
-				area_cd
-		'''
-	cur.execute(sql)
-	rows = cur.fetchall()
+	# database connect
+	conn = connect_mysql.get_connect()
 
+	# get cursor
+	cur = conn.cursor()
+
+	# get place list
+	rows = m_place.get_m_place(cur)
+
+	# convert to csv
 	placeList = ""
 	i = 0
 	for row in rows:
@@ -37,7 +27,7 @@ def get_placeList():
 			placeList = placeList + ", " + row[2]
 		i = i + 1
 
-	#close
+	# close
 	cur.close
 	conn.close
 
