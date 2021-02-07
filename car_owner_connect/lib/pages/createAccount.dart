@@ -42,24 +42,23 @@ class CreateAccountResult extends StatefulWidget {
 }
 
 class CreateAccountState extends State<CreateAccountResult> {
-  var _usernameController = TextEditingController();
-  var _passwordController = TextEditingController();
-  var _password2Controller = TextEditingController();
-
   var _usernameFocusNode = FocusNode();
   var _passwordFocusNode = FocusNode();
   var _password2FocusNode = FocusNode();
+  var _favoriteDriveLocationFocusNode = FocusNode();
 
+  String username = "";
+  String password = "";
+  String password_check = "";
   var deliveryDate = "納車日を選択してください。";
   var birthDate = "生年月日を選択してください。";
-  String favoriteDriveSpot = '';
-  var _favoriteSpotController = TextEditingController();
+  String favoriteDriveLocation = '';
 
   Future<void> _selectDeliveryDate(BuildContext context) async {
     final DateTime selected = await showDatePicker(
       context: context,
       initialDate: new DateTime.now(),
-      firstDate: DateTime(2015),
+      firstDate: DateTime(2010),
       lastDate: new DateTime.now(),
       locale: const Locale("ja"),
     );
@@ -96,6 +95,7 @@ class CreateAccountState extends State<CreateAccountResult> {
         _usernameFocusNode.unfocus();
         _passwordFocusNode.unfocus();
         _password2FocusNode.unfocus();
+        _favoriteDriveLocationFocusNode.unfocus();
       },
       child: SingleChildScrollView(
         child: Column(
@@ -122,6 +122,11 @@ class CreateAccountState extends State<CreateAccountResult> {
                     ],
                     obscureText: false,
                     focusNode: _usernameFocusNode,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        username = newValue;
+                      });
+                    },
                   ),
 
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -149,12 +154,17 @@ class CreateAccountState extends State<CreateAccountResult> {
                     ),
                     autocorrect: false,
                     autofocus: false,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.visiblePassword,
                     inputFormatters: <TextInputFormatter>[
                       LengthLimitingTextInputFormatter(20),
                     ],
                     obscureText: false,
                     focusNode: _passwordFocusNode,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        password = newValue;
+                      });
+                    },
                   ),
 
                   // password again textField
@@ -166,12 +176,17 @@ class CreateAccountState extends State<CreateAccountResult> {
                     ),
                     autocorrect: false,
                     autofocus: false,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.visiblePassword,
                     inputFormatters: <TextInputFormatter>[
                       LengthLimitingTextInputFormatter(20),
                     ],
                     obscureText: false,
                     focusNode: _password2FocusNode,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        password_check = newValue;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -263,10 +278,15 @@ class CreateAccountState extends State<CreateAccountResult> {
                       filled: true,
                       fillColor: Color.fromARGB(255, 150, 255, 200),
                     ),
-                    controller: _favoriteSpotController,
                     style: TextStyle(
                         fontSize: 15.0
                     ),
+                    focusNode: _favoriteDriveLocationFocusNode,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        favoriteDriveLocation = newValue;
+                      });
+                    },
                   ),
                   height: 50.0,
                 ),),
@@ -297,5 +317,159 @@ class CreateAccountState extends State<CreateAccountResult> {
   }
 
   void createAccount() {
+    // check username
+    var usernameRegExp = new RegExp(r'^[0-9a-zA-Z_]*$');
+    if (username.isEmpty || username == null || username == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("usernameが入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(!usernameRegExp.hasMatch(username)) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("usernameに使用できない文字が含まれています。\n半角英数字と'_'のみ使用できます。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check password
+    var passwordRegExp = new RegExp(r'^[0-9a-zA-Z_]*$');
+    if (password.isEmpty || password == null || password == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("パスワードが入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(!passwordRegExp.hasMatch(password)) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("パスワードに使用できない文字が含まれています。\n半角英数字と'_'のみ使用できます。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else if(password != password_check) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("パスワードが確認用パスワードと一致しません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check delivery date
+    if(deliveryDate.isEmpty || deliveryDate == null || deliveryDate == ""
+      || deliveryDate == "納車日を選択してください。") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("納車日が入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check birth date
+    if(birthDate.isEmpty || birthDate == null || birthDate == ""
+      || birthDate == "生年月日を選択してください。") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("生年月日が入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // check favorite drive location
+    if(favoriteDriveLocation.isEmpty || favoriteDriveLocation == null || favoriteDriveLocation == "") {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(""),
+            content: Text("よくドライブに行く場所が入力されていません。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
   }
 }
