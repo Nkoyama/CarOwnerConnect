@@ -3,6 +3,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../import/header.dart';
 
 class CreateAccount extends StatelessWidget {
@@ -471,5 +473,15 @@ class CreateAccountState extends State<CreateAccountResult> {
       );
       return;
     }
+
+    String url = 'http://160.16.217.34/api/placeList/';
+    Map<String, String> headers = {'content-type': 'application/json'};
+    String body = json.encode({
+      'username': username,
+      'password': password,
+      'delivery_ymd': deliveryDate,
+      'birth_ymd': birthDate,
+      'favorite_drive_location': favoriteDriveLocation
+    });
   }
 }
