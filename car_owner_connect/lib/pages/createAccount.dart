@@ -473,9 +473,11 @@ class CreateAccountState extends State<CreateAccountResult> {
       );
       return;
     }
+
     try {
-      post_new_account();
+      print(postNewAccount());
     } catch(e) {
+      print(e);
       showDialog(
         context: context,
         builder: (_) {
@@ -494,9 +496,9 @@ class CreateAccountState extends State<CreateAccountResult> {
     }
   }
 
-  Future<String> post_new_account() async {
-    String url = 'http://160.16.217.34/api/placeList/';
-    Map<String, String> headers = {'content-type': 'application/json'};
+  Future<String> postNewAccount() async {
+    String url = 'http://160.16.217.34/api/createAccount/';
+    Map<String, String> headers = {'Content-type': 'application/json'};
     String body = json.encode({
       'username': username,
       'password': password,
@@ -505,8 +507,14 @@ class CreateAccountState extends State<CreateAccountResult> {
       'favorite_drive_location': favoriteDriveLocation
     });
     http.Response resp = await http.post(url, headers: headers, body: body);
+    print(resp.statusCode);
+    print(resp.body);
     if(resp.statusCode == 200) {
-      return "succeeded to register new account.";
+      if(resp.body == "succeeded") {
+        return "succeeded";
+      } else {
+        throw Exception("新しいアカウントの登録に失敗しました。");
+      }
     } else {
       throw Exception("新しいアカウントの登録に失敗しました。");
     }
