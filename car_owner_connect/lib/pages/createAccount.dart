@@ -473,7 +473,28 @@ class CreateAccountState extends State<CreateAccountResult> {
       );
       return;
     }
+    try {
+      post_new_account();
+    } catch(e) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("ERROR"),
+            content: Text("新しいアカウントの登録に失敗しました。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Oh My God"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
+  Future<String> post_new_account() async {
     String url = 'http://160.16.217.34/api/placeList/';
     Map<String, String> headers = {'content-type': 'application/json'};
     String body = json.encode({
@@ -483,5 +504,11 @@ class CreateAccountState extends State<CreateAccountResult> {
       'birth_ymd': birthDate,
       'favorite_drive_location': favoriteDriveLocation
     });
+    http.Response resp = await http.post(url, headers: headers, body: body);
+    if(resp.statusCode == 200) {
+      return "succeeded to register new account.";
+    } else {
+      throw Exception("新しいアカウントの登録に失敗しました。");
+    }
   }
 }
