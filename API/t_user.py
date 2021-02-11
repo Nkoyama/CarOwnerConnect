@@ -1,4 +1,6 @@
-def create_account(cursor, username, password, delivery_ymd, birth_ymd, favorite_drive_location):
+import log
+
+def create_account(cursor, data):
 	try:
 		sql = '''
 				insert into t_user(
@@ -9,16 +11,20 @@ def create_account(cursor, username, password, delivery_ymd, birth_ymd, favorite
 					favorite_drive_location
 				)
 				values(
-					${username},
-					${password},
-					${delivery_ymd},
-					${birth_ymd},
-					${favorite_drive_loacation}
+					"test",
+					"test",
+					"",
+					"",
+					"test"
 				)
 			'''
 	
-		cursor.execute(sql)
+		result = cursor.execute(sql)
+
+		log.write_logs('INSERT t_user' + str(result), sql)
 	
-		return true
-	except:
+		return result
+
+	except Exception as e:
+		log.write_logs('EXCEPTION create_account', e)
 		raise Exception
