@@ -1,6 +1,7 @@
 from flask import Flask, url_for
 from flask import request
 import MySQLdb
+import json
 
 from common import connect_mysql
 import log
@@ -9,7 +10,7 @@ import t_user
 
 app = Flask(__name__)
 
-# 本拠地リストとDBから取得しCSV形式で返却
+# 本拠地リストを取得し、CSV形式で返却
 @app.route("/api/placeList/", methods=["GET"])
 def get_placeList():
 	# database connect
@@ -40,6 +41,18 @@ def get_placeList():
 	return placeList
 
 
+# ユーザー情報取得を取得し、JSON形式で返却
+@app.route("/api/userInfo/", methods=["GET"])
+def get_userInfo():
+	# database connect
+	conn = connect_mysql.get_connect()
+
+	# get cursor
+	cur = conn.cursor()
+
+	# get user informations
+
+
 # アカウント作成(受け取ったアカウント情報をDBに登録)
 @app.route("/api/createAccount/", methods=["POST"])
 def create_account():
@@ -51,7 +64,7 @@ def create_account():
 
 	# create account
 	try:
-		receiveData = request.get_data()
+		receiveData = json.loads(request.get_data())
 
 		log.write_logs('POST createAccount', receiveData)
 
