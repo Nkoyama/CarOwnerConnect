@@ -42,15 +42,51 @@ def get_placeList():
 
 
 # ユーザー情報取得を取得し、JSON形式で返却
-@app.route("/api/userInfo/", methods=["GET"])
-def get_userInfo():
+@app.route("/api/loginInfo/", methods=["GET"])
+def get_loginInfo():
 	# database connect
 	conn = connect_mysql.get_connect()
 
 	# get cursor
 	cur = conn.cursor()
 
-	# get user informations
+	# get login informations
+	try:
+		receiveData = json.loads(request.get_data())
+		username = receiveData['username']
+
+		log.write_logs('GET get_loginInfo', 'username: ' + str(username))
+
+		rows = t_user.get_login_info(cur, username)
+		log.write_logs('get_loginInfo', str(rows))
+
+		# username exists
+		if rows and len(rows)>0:
+			loginInfo = {
+				'username': username,
+				'password': rows[1][2],
+				'del_flg': rows[1][3]
+			}
+		# username doesn't exist
+		else:
+			loginInfo = {
+				'username': '',
+				'password': '',
+				'del_flg': ''
+			}
+	
+		return json.dumps(loginInfo)
+
+	except Exception as e:
+		log.write_logs('EXCEPTION get_loginInfo', e)
+		# close
+		cur.close
+		conn.close
+
+	finally:
+		# close
+		cur.close
+		conn.close
 
 
 # アカウント作成(受け取ったアカウント情報をDBに登録)
@@ -80,10 +116,6 @@ def create_account():
 			log.write_logs('CALLBACK t_user', receiveData)
 			return "failed"
 
-		# close
-		cur.close
-		conn.close
-
 	except Exception as e:
 		log.write_logs('EXCEPTION create_account', e)
 		# close
@@ -91,10 +123,12 @@ def create_account():
 		conn.close
 
 		return "failed"
+
 	finally:
 		# close
 		cur.close
 		conn.close
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=False)
