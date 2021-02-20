@@ -499,14 +499,14 @@ class CreateAccountState extends State<CreateAccountResult> {
   Future<String> postNewAccount() async {
     String url = 'http://160.16.217.34/api/createAccount/';
     Map<String, String> headers = {'Content-type': 'application/json'};
-    String body = json.encode({
+    Map<String, dynamic> body = {
       'username': username,
       'password': password,
       'delivery_ymd': deliveryDate,
       'birth_ymd': birthDate,
       'favorite_drive_location': favoriteDriveLocation
-    });
-    http.Response resp = await http.post(url, headers: headers, body: body);
+    };
+    http.Response resp = await http.post(url, headers: headers, body: json.encode(body));
     print(resp.statusCode);
     print(resp.body);
     if(resp.statusCode == 200) {

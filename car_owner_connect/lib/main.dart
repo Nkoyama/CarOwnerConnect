@@ -207,6 +207,8 @@ class SignInState extends State<SignInResult> {
 
   /// sign in
   void signIn() {
+    // ユーザー情報取得
+
     // 入力チェック
     if(this.username.length > 0 && this.password.length > 0) {
       // UsernameとPasswordが保存されたデータと一致する
