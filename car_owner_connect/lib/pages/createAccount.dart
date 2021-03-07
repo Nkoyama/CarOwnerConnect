@@ -507,8 +507,6 @@ class CreateAccountState extends State<CreateAccountResult> {
       'favorite_drive_location': favoriteDriveLocation
     };
     http.Response resp = await http.post(url, headers: headers, body: json.encode(body));
-    print(resp.statusCode);
-    print(resp.body);
     if(resp.statusCode == 200) {
       if(resp.body == "succeeded") {
         return "succeeded";
