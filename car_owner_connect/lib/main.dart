@@ -7,6 +7,8 @@ import 'pages/mainFooter.dart';
 import 'pages/forgetPassword.dart';
 import 'localDB/bloc_m_login_info.dart';
 import 'localDB/m_login_info.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(App());
@@ -208,7 +210,13 @@ class SignInState extends State<SignInResult> {
   /// sign in
   void signIn() {
     // ユーザー情報取得
+    try {
+      print(getLoginInfo());
+    } catch(e) {
+      print(e);
+    }
 
+    /*
     // 入力チェック
     if(this.username.length > 0 && this.password.length > 0) {
       // UsernameとPasswordが保存されたデータと一致する
@@ -275,5 +283,38 @@ class SignInState extends State<SignInResult> {
         },
       );
     }
+    */
+    // 画面遷移
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Main(),
+        )
+    );
   }
+
+  LoginInfoResponse getLoginInfo() {
+    String url = 'http://160.16.217.34/api/loginInfo/';
+    Map<String, String> headers = {'Content-type': 'application/json'};
+    Map<String, dynamic> body = {'username': this.username};
+    http.post(url, headers: headers, body: json.encode(body)).then((response) {
+      if(response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('ログイン情報の取得に失敗しました。');
+      }
+    });
+  }
+}
+
+class LoginInfoResponse {
+  String returnUsername;
+  String returnPassword;
+  String returnDelFlg;
+
+  LoginInfoResponse({
+    this.returnUsername,
+    this.returnPassword,
+    this.returnDelFlg
+  });
 }
