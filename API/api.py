@@ -79,9 +79,6 @@ def get_loginInfo():
 
 	except Exception as e:
 		log.write_logs('EXCEPTION get_loginInfo', e)
-		# close
-		cur.close
-		conn.close
 
 	finally:
 		# close
@@ -113,14 +110,11 @@ def create_account():
 			return "succeeded"
 		else:
 			conn.rollback()
-			log.write_logs('CALLBACK t_user', receiveData)
+			log.write_logs('ROLLBACK t_user', receiveData)
 			return "failed"
 
 	except Exception as e:
 		log.write_logs('EXCEPTION create_account', e)
-		# close
-		cur.close
-		conn.close
 
 		return "failed"
 

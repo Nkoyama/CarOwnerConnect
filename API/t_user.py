@@ -19,7 +19,7 @@ def get_login_info(cursor, username):
 		loginInfo = cursor.fetchall()
 		log.write_logs('SELECT t_user', str(loginInfo))
 
-		retrurn loginInfo
+		return loginInfo
 	except Exception as e:
 		log.write_logs('EXCEPTION get_login_info', e)
 		raise Exception
