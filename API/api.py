@@ -42,7 +42,7 @@ def get_placeList():
 
 
 # ユーザー情報取得を取得し、JSON形式で返却
-@app.route("/api/loginInfo/", methods=["GET"])
+@app.route("/api/loginInfo/", methods=["POST"])
 def get_loginInfo():
 	# database connect
 	conn = connect_mysql.get_connect()
@@ -64,8 +64,8 @@ def get_loginInfo():
 		if rows and len(rows)>0:
 			loginInfo = {
 				'username': username,
-				'password': rows[1][2],
-				'del_flg': rows[1][3]
+				'password': rows[0][1],
+				'del_flg': rows[0][2]
 			}
 		# username doesn't exist
 		else:
