@@ -116,6 +116,8 @@ class SignInState extends State<SignInResult> {
   String savedUsername = '';
   String savedPassword = '';
 
+  var loginInfoResponse;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -211,15 +213,15 @@ class SignInState extends State<SignInResult> {
   void signIn() {
     // ユーザー情報取得
     try {
-      print(getLoginInfo());
+      getLoginInfo();
+      print(loginInfoResponse);
     } catch(e) {
       print(e);
     }
 
-    /*
     // 入力チェック
-    if(this.username.length > 0 && this.password.length > 0) {
-      // UsernameとPasswordが保存されたデータと一致する
+    if(this.password == loginInfoResponse.returnPassword && loginInfoResponse.returnDelFlg == '0') {
+      // Passwordが保存されたデータと一致し、削除されていない
       if(savedUsername == this.username && savedPassword == this.password) {
         print('ログインデータ変更なし');
         // 画面遷移のみ
@@ -272,7 +274,7 @@ class SignInState extends State<SignInResult> {
         context: context,
         builder: (_) {
           return AlertDialog(
-            content: Text("UsernameまたはPasswordが入力されていません。"),
+            content: Text("UsernameまたはPasswordが登録されたユーザ情報を一致しません。"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
@@ -282,8 +284,8 @@ class SignInState extends State<SignInResult> {
           );
         },
       );
+      return;
     }
-    */
     // 画面遷移
     Navigator.push(
         context,
@@ -293,16 +295,20 @@ class SignInState extends State<SignInResult> {
     );
   }
 
-  LoginInfoResponse getLoginInfo() {
+  // usernameをサーバーに送り、passwordとdel_flgが返ってくる
+  void getLoginInfo() {
     String url = 'http://160.16.217.34/api/loginInfo/';
     Map<String, String> headers = {'Content-type': 'application/json'};
     Map<String, dynamic> body = {'username': this.username};
     http.post(url, headers: headers, body: json.encode(body)).then((response) {
-      if(response.statusCode == 200) {
-        return json.decode(response.body);
-      } else {
-        throw Exception('ログイン情報の取得に失敗しました。');
-      }
+      setState(() {
+        if(response.statusCode == 200) {
+          loginInfoResponse = new LoginInfoResponse.fromJson(json.decode(response.body));
+        } else {
+          print(response.statusCode);
+          throw Exception('ログイン情報の取得に失敗しました。');
+        }
+      });
     });
   }
 }
@@ -312,9 +318,14 @@ class LoginInfoResponse {
   String returnPassword;
   String returnDelFlg;
 
-  LoginInfoResponse({
+  LoginInfoResponse([
     this.returnUsername,
     this.returnPassword,
     this.returnDelFlg
-  });
+  ]);
+
+  LoginInfoResponse.fromJson(Map<String,dynamic> json) :
+    returnUsername = json['username'],
+    returnPassword = json['password'],
+    returnDelFlg = json['del_flg'];
 }
