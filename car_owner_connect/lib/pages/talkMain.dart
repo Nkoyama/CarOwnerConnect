@@ -5,6 +5,7 @@ import '../import/header.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'talkPage.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TalkMain extends StatelessWidget {
   @override
@@ -470,6 +471,7 @@ class TalkMainPageState extends State<TalkMainPage> {
     );
   }
 
+  /// 検索処理
   void search() {
     // check place
     if(selectedPlace == "本拠選択" || selectedPlace == "") {
@@ -657,6 +659,53 @@ class TalkMainPageState extends State<TalkMainPage> {
         },
       );
       return;
+    }
+    // ここまで検索項目チェック
+
+    // ここから検索のメイン処理
+    try {
+      var result = postSearch();
+    } catch(e) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("ERROR"),
+            content: Text("検索できませんでした。"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Oh My God"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future<String> postSearch() async {
+    String url = 'http://160.16.217.34/api/searchUser/';
+    Map<String, String> headers = {'Content_type': 'application/json'};
+    Map<String, dynamic> body = {
+      'place': selectedPlace,
+      'classification_number': classificationNumber,
+      'color': selectedColor,
+      'hiragana': hiragana,
+      'number_1': selectedNumber_1,
+      'number_2': selectedNumber_2
+    };
+    http.Response resp = await http.post(url, headers: headers, body: json.encode(body));
+    print(resp.statusCode);
+    if(resp.statusCode == 200) {
+      print(resp.body);
+      if(resp.body.isNotEmpty) {
+        return resp.body;
+      } else {
+        throw Exception("該当するユーザがいませんでした。");
+      }
+    } else {
+      throw Exception("検索できませんでした。");
     }
   }
 
