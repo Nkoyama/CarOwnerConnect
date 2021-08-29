@@ -124,5 +124,46 @@ def create_account():
 		conn.close
 
 
+# ユーザ検索
+@app.route("/api/searchUser/", methods=["POST"])
+def search_user():
+	# database connect
+	conn = connect_mysql.get_connect()
+
+	# get cursor
+	cur = conn.cursor()
+
+	# create account
+	try:
+		receiveData = json.loads(request.get_data())
+
+		log.write_logs('POST searchUser', receiveData)
+
+		result = t_user.search_user(cur, receiveData)
+
+		# convert to csv
+		matchUsers = ""
+		i = 0
+		for matchUser in result:
+			if i == 0:
+				matchUsers = str(matchUser[1]) + ", " + str(matchUser[2])
+			else:
+				matchUsers = matchUsers + "\n" + str(matchUser[1]) + ", " + str(matchUser[2])
+			i = i + 1
+
+		log.write_logs('RESULT search_user', matchUsers)
+		return matchUsers
+
+	except Exception as e:
+		log.write_logs('EXCEPTION search_user', e)
+
+		return "failed"
+
+	finally:
+		# close
+		cur.close
+		conn.close
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=False)
