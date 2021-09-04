@@ -25,7 +25,7 @@ class ProfileMainPage extends StatefulWidget {
 }
 
 class ProfileMainPageState extends State<ProfileMainPage> {
-  List<String> placeList = gc.placeList;
+  List<String> placeList = gc.placeList1;
   List<String> colorList = gc.colorList;
   List<String> numberList_1 = gc.numberList_1;
   List<String> numberList_2 = gc.numberList_2;

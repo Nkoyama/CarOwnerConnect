@@ -2,10 +2,20 @@ library my_prj.globals;
 
 /* lists */
 /* 選択肢リスト */
-final List<String> placeList = [
+final List<List<String>> placeList = [[
+  "0", "本拠選択"
+]];
+final List<String> placeList1 = [
   "本拠選択"
 ];
 
+final List<String> colorCode = [
+  "",
+  "white",
+  "green",
+  "yellow",
+  "black"
+];
 final List<String> colorList = [
   "色を選択してください。",
   "白(文字色：緑)",

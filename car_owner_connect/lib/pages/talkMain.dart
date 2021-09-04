@@ -28,13 +28,16 @@ class TalkMainPage extends StatefulWidget {
 }
 
 class TalkMainPageState extends State<TalkMainPage> {
-  List<String> placeList = gc.placeList;
+  List<List<String>> placeList = gc.placeList;
+  List<String> placeList1 = gc.placeList1;
+  List<String> colorCode = gc.colorCode;
   List<String> colorList = gc.colorList;
   List<String> numberList_1 = gc.numberList_1;
   List<String> numberList_2 = gc.numberList_2;
 
   String selectedPlace = "本拠選択";
   String classificationNumber = "";
+  String selectedColorCode = "";
   String selectedColor = "色を選択してください。";
   String hiragana = "";
   String selectedNumber_1 = "";
@@ -42,6 +45,8 @@ class TalkMainPageState extends State<TalkMainPage> {
 
   var _classificationFocusNode = FocusNode();
   var _hiraganaFocusNode = FocusNode();
+
+  var placeListResponse;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +110,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                               });
                             },
                             selectedItemBuilder: (context) {
-                              return placeList.map((String item) {
+                              return placeList1.map((String item) {
                                 return Text(
                                   item,
                                   style: TextStyle(
@@ -115,7 +120,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                                 );
                               }).toList();
                             },
-                            items: placeList.map((String item) {
+                            items: placeList1.map((String item) {
                               return DropdownMenuItem(
                                 value: item,
                                 child: Text(
@@ -221,6 +226,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                         onChanged: (String newValue) {
                           setState(() {
                             selectedColor = newValue;
+                            selectedColorCode = colorCode[colorList.indexOf(selectedColor)];
                           });
                         },
                         selectedItemBuilder: (context) {
@@ -696,9 +702,7 @@ class TalkMainPageState extends State<TalkMainPage> {
       'number_2': selectedNumber_2
     };
     http.Response resp = await http.post(url, headers: headers, body: json.encode(body));
-    print(resp.statusCode);
     if(resp.statusCode == 200) {
-      print(resp.body);
       if(resp.body.isNotEmpty) {
         return resp.body;
       } else {
@@ -712,11 +716,14 @@ class TalkMainPageState extends State<TalkMainPage> {
   void getPlaceList() async {
     http.get('http://160.16.217.34/api/placeList/').then((response) {
       setState(() {
-        placeList = response.body.toString().split(', ');
-        if(placeList.length > 0) {
-          placeList.insert(0, "本拠選択");
+        if(response.statusCode == 200) {
+          placeListResponse = new PlaceListResponse.fromJson(json.decode(response.body));
+          for(var place in placeListResponse.returnPlaceList) {
+            placeList.add([place[0].toString(), place[1].toString()]);
+          }
+          print(placeList);
         } else {
-          placeList = ["error"];
+          print('error');
         }
       });
     });
@@ -727,6 +734,17 @@ class TalkMainPageState extends State<TalkMainPage> {
     getPlaceList();
     super.initState();
   }
+}
+
+class PlaceListResponse {
+  List<dynamic> returnPlaceList;
+
+  PlaceListResponse([
+    this.returnPlaceList
+  ]);
+
+  PlaceListResponse.fromJson(Map<String,dynamic> json) :
+      returnPlaceList = json['place_list'];
 }
 
 class TalkHistory extends StatefulWidget {
