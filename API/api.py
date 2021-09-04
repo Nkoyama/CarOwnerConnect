@@ -10,7 +10,7 @@ import t_user
 
 app = Flask(__name__)
 
-# 本拠地リストを取得し、CSV形式で返却
+# 本拠地リストを取得し、JSON形式で返却
 @app.route("/api/placeList/", methods=["GET"])
 def get_placeList():
 	# database connect
@@ -20,25 +20,25 @@ def get_placeList():
 	cur = conn.cursor()
 
 	# get place list
-	rows = m_place.get_m_place(cur)
+	try:
+		rows = m_place.get_m_place(cur)
 
-	# convert to csv
-	placeList = ""
-	i = 0
-	for row in rows:
-		if i == 0:
-			placeList = placeList + row[2]
-		else:
-			placeList = placeList + ", " + row[2]
-		i = i + 1
+		# convert to json
+		jsonPlaceList = {
+			"place_list": rows
+		}
 
-	log.write_logs('GET placeList', '')
+		log.write_logs('GET placeList', '')
 
-	# close
-	cur.close
-	conn.close
+		return json.dumps(jsonPlaceList)
 
-	return placeList
+	except Exception as e:
+		log.write_logs('EXCEPTION get_placeList', e)
+
+	finally:
+		# close
+		cur.close
+		conn.close
 
 
 # ユーザー情報取得を取得し、JSON形式で返却
