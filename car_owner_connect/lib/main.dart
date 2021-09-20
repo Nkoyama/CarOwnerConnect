@@ -118,6 +118,8 @@ class SignInState extends State<SignInResult> {
 
   var loginInfoResponse;
 
+  List<M_LOGIN_INFO> savedLoginUsers = [];
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -198,12 +200,38 @@ class SignInState extends State<SignInResult> {
       Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
       var savedLoginInfoList = blocMLoginInfo.getLoginInfo();
       savedLoginInfoList.then((loginInfo) {
-        // 保存されたログイン情報を自動で入力
+        // 保存されたログイン情報の中で最後にログインしたユーザのログイン情報を自動で入力
         if (loginInfo is List<M_LOGIN_INFO>) {
-          _usernameController.text = loginInfo[0].username;
-          _passwordController.text = loginInfo[0].password;
-          savedUsername = loginInfo[0].username;
-          savedPassword = loginInfo[0].password;
+          savedLoginUsers = loginInfo;
+          int i = 0;
+          var lastLoginTime;
+          var lastLoginUsername;
+          var lastLoginPassword;
+          for(var li in loginInfo) {
+            print(li.username);
+            print(li.password);
+            print(li.last_login);
+            if(i == 0){
+              lastLoginTime = li.last_login;
+              lastLoginUsername = li.username;
+              lastLoginPassword = li.password;
+            } else {
+              try {
+                if(lastLoginTime.isBefore(li.last_login)) {
+                  lastLoginTime = li.last_login;
+                  lastLoginUsername = li.username;
+                  lastLoginPassword = li.password;
+                }
+              } catch(e) {
+                // 何もしない
+              }
+            }
+            i++;
+          }
+          _usernameController.text = lastLoginUsername;
+          _passwordController.text = lastLoginPassword;
+          savedUsername = lastLoginUsername;
+          savedPassword = lastLoginPassword;
         }
       });
     });
@@ -214,34 +242,35 @@ class SignInState extends State<SignInResult> {
     // ユーザー情報取得
     try {
       getLoginInfo();
-      print(loginInfoResponse);
     } catch(e) {
       print(e);
     }
 
     // 入力チェック
     if(this.password == loginInfoResponse.returnPassword && loginInfoResponse.returnDelFlg == '0') {
-      // Passwordが保存されたデータと一致し、削除されていない
-      if(savedUsername == this.username && savedPassword == this.password) {
-        print('ログインデータ変更なし');
-        // 画面遷移のみ
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Main(),
-            )
-        );
+      // 保存されたデータ内に一致するデータがあるか探す
+      print(this.username);
+      bool isSaved = false;
+      for (var li in savedLoginUsers) {
+        print(li);
+        if (li.username == this.username) {
+          isSaved = true;
+          continue;
+        }
       }
-      // Usernameのみ保存されたデータの場合
-      else if(savedUsername == this.username) {
-        // Passwordをupdate
+      print(isSaved);
+      // 保存済みデータが存在する場合 -> 更新
+      if(isSaved) {
+        // M_LOGIN_INFOをupdate
         final loginInfo = M_LOGIN_INFO(
-            username: this.username,
-            password: this.password
+          username: this.username,
+          password: this.password,
+          last_login: DateTime.now(),
+          updated_at: DateTime.now(),
         );
         Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
         blocMLoginInfo.update(loginInfo);
-        print('Password更新');
+        print('M_LOGIN_INFO更新');
         // 画面遷移
         Navigator.push(
           context,

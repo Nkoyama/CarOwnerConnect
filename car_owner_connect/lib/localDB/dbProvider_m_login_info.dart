@@ -12,11 +12,13 @@ class DBProvider_m_login_info {
 
   static Database _database;
 
-  Future<Database> get database async {
-    if (_database != null)
-      return _database;
+  final scripts = {
+    '2' : ['''alter table M_LOGIN_INFO add column LAST_LOGIN  timestamp'''],
+    '3' : ['''alter table M_LOGIN_INFO add column CREATED_AT  timestamp'''],
+    '4' : ['''alter table M_LOGIN_INFO add column UPDATED_AT  timestamp''']
+  };
 
-    // DBがなかったら作る
+  Future<Database> get database async {
     _database = await initDB();
     return _database;
   }
@@ -26,7 +28,9 @@ class DBProvider_m_login_info {
 
     String path = join(documentsDirectory.path, "CaroConLocal.db");
 
-    return await openDatabase(path, version: 1, onCreate: createTable);
+    return await openDatabase(path, version: 4,
+                              onCreate: createTable,
+                              onUpgrade: upgradeTable);
   }
 
   Future<void> createTable(Database db, int version) async {
@@ -38,6 +42,15 @@ class DBProvider_m_login_info {
       )
       '''
     );
+  }
+
+  Future<void> upgradeTable(Database db, int oldVersion, int newVersion) async{
+    for (var i = oldVersion + 1; i <= newVersion; i++) {
+      var queries = scripts[i.toString()];
+      for (String query in queries) {
+        await db.execute(query);
+      }
+    }
   }
 
   createLoginInfo(M_LOGIN_INFO loginInfo) async {
@@ -54,6 +67,9 @@ class DBProvider_m_login_info {
         return M_LOGIN_INFO(
           username: maps[i]['USERNAME'],
           password: maps[i]['PASSWORD'],
+          last_login: maps[i]['LAST_LOGIN'],
+          created_at: maps[i]['CREATED_AT'],
+          updated_at: maps[i]['UPDATED_AT'],
         );
       });
     } else {
