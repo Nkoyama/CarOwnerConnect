@@ -28,14 +28,15 @@ class TalkMainPage extends StatefulWidget {
 }
 
 class TalkMainPageState extends State<TalkMainPage> {
-  List<List<String>> placeList = gc.placeList;
-  List<String> placeList1 = gc.placeList1;
+  List<String> placeList = gc.placeList;
+  List<int> placeCodeList = gc.placeCodeList;
   List<String> colorCode = gc.colorCode;
   List<String> colorList = gc.colorList;
   List<String> numberList_1 = gc.numberList_1;
   List<String> numberList_2 = gc.numberList_2;
 
   String selectedPlace = "本拠選択";
+  int selectedPlaceCode = 0;
   String classificationNumber = "";
   String selectedColorCode = "";
   String selectedColor = "色を選択してください。";
@@ -63,7 +64,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                 constraints: BoxConstraints.expand(height: 25.0),
                 padding: EdgeInsets.only(left: 5, right: 5),
                 child: Text(
-                  '検索',
+                  'ナンバー検索',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -110,7 +111,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                               });
                             },
                             selectedItemBuilder: (context) {
-                              return placeList1.map((String item) {
+                              return placeList.map((String item) {
                                 return Text(
                                   item,
                                   style: TextStyle(
@@ -120,7 +121,7 @@ class TalkMainPageState extends State<TalkMainPage> {
                                 );
                               }).toList();
                             },
-                            items: placeList1.map((String item) {
+                            items: placeList.map((String item) {
                               return DropdownMenuItem(
                                 value: item,
                                 child: Text(
@@ -693,8 +694,11 @@ class TalkMainPageState extends State<TalkMainPage> {
   Future<String> postSearch() async {
     String url = 'http://160.16.217.34/api/searchUser/';
     Map<String, String> headers = {'Content_type': 'application/json'};
+
+    selectedPlaceCode = placeCodeList[placeList.indexOf(selectedPlace)];
+    print(selectedPlaceCode);
     Map<String, dynamic> body = {
-      'place': selectedPlace,
+      'place': selectedPlaceCode,
       'classification_number': classificationNumber,
       'color': selectedColor,
       'hiragana': hiragana,
@@ -718,10 +722,12 @@ class TalkMainPageState extends State<TalkMainPage> {
       setState(() {
         if(response.statusCode == 200) {
           placeListResponse = new PlaceListResponse.fromJson(json.decode(response.body));
-          for(var place in placeListResponse.returnPlaceList) {
-            placeList.add([place[0].toString(), place[1].toString()]);
+          if(placeList.length < 2){
+            for(var place in placeListResponse.returnPlaceList) {
+              placeList.add(place[1].toString());
+              placeCodeList.add(place[0]);
+            }
           }
-          print(placeList);
         } else {
           print('error');
         }
