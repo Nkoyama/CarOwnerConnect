@@ -9,6 +9,7 @@ import 'localDB/bloc_m_login_info.dart';
 import 'localDB/m_login_info.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
 void main() {
   runApp(App());
@@ -115,8 +116,6 @@ class SignInState extends State<SignInResult> {
 
   String savedUsername = '';
   String savedPassword = '';
-
-  var loginInfoResponse;
 
   List<M_LOGIN_INFO> savedLoginUsers = [];
 
@@ -235,12 +234,28 @@ class SignInState extends State<SignInResult> {
   }
 
   /// sign in
-  void signIn() {
+  void signIn() async{
     // ユーザー情報取得
+    LoginInfoResponse loginInfoResponse;
     try {
-      getLoginInfo();
+      loginInfoResponse = await getLoginInfo();
     } catch(e) {
-      print(e);
+      //error message
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            content: Text(e),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return;
     }
 
     // 入力チェック
@@ -253,7 +268,6 @@ class SignInState extends State<SignInResult> {
           continue;
         }
       }
-      print(isSaved);
       // 保存済みデータが存在する場合 -> 更新
       if(isSaved) {
         // M_LOGIN_INFOをupdate
@@ -323,20 +337,17 @@ class SignInState extends State<SignInResult> {
   }
 
   // usernameをサーバーに送り、passwordとdel_flgが返ってくる
-  void getLoginInfo() {
+  Future<LoginInfoResponse> getLoginInfo() async {
     String url = 'http://160.16.217.34/api/loginInfo/';
     Map<String, String> headers = {'Content-type': 'application/json'};
     Map<String, dynamic> body = {'username': this.username};
-    http.post(url, headers: headers, body: json.encode(body)).then((response) {
-      setState(() {
-        if(response.statusCode == 200) {
-          loginInfoResponse = new LoginInfoResponse.fromJson(json.decode(response.body));
-        } else {
-          print(response.statusCode);
-          throw Exception('ログイン情報の取得に失敗しました。');
-        }
-      });
-    });
+    http.Response resp = await http.post(url, headers: headers, body: json.encode(body));
+    if(resp.statusCode == 200) {
+      return new LoginInfoResponse.fromJson(json.decode(resp.body));
+    } else {
+      print(resp.statusCode);
+      throw "ログイン情報の取得に失敗しました。";
+    }
   }
 }
 
