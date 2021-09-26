@@ -700,7 +700,7 @@ class TalkMainPageState extends State<TalkMainPage> {
     Map<String, dynamic> body = {
       'place': selectedPlaceCode,
       'classification_number': classificationNumber,
-      'color': selectedColor,
+      'color': selectedColorCode,
       'hiragana': hiragana,
       'number_1': selectedNumber_1,
       'number_2': selectedNumber_2
