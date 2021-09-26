@@ -25,12 +25,31 @@ class M_LOGIN_INFO {
   }
 
   Map<String, dynamic> toMap() {
+    String createdAt = "";
+    if(created_at is DateTime) {
+      createdAt = created_at.year.toString() + "-"
+                + created_at.month.toString() + "-"
+                + created_at.day.toString() + " "
+                + created_at.hour.toString() + ":"
+                + created_at.minute.toString() + ":"
+                + created_at.second.toString();
+    }
     return {
       "username": username,
       "password": password,
-      "last_login": last_login,
-      "created_at": created_at,
-      "updated_at": updated_at,
+      "last_login": last_login.year.toString() + "-"
+                  + last_login.month.toString() + "-"
+                  + last_login.day.toString() + " "
+                  + last_login.hour.toString() + ":"
+                  + last_login.minute.toString() + ":"
+                  + last_login.second.toString(),
+      "created_at": createdAt,
+      "updated_at": updated_at.year.toString() + "-"
+                  + updated_at.month.toString() + "-"
+                  + updated_at.day.toString() + " "
+                  + updated_at.hour.toString() + ":"
+                  + updated_at.minute.toString() + ":"
+                  + updated_at.second.toString(),
     };
   }
 }

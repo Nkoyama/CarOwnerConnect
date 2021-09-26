@@ -64,12 +64,16 @@ class DBProvider_m_login_info {
     final List<Map<String, dynamic>> maps = await db.query(tableName);
     if (maps.isNotEmpty) {
       return List.generate(maps.length, (i) {
+        DateTime lastLogin;
+        try {
+          lastLogin = DateTime.parse(maps[i]['LAST_LOGIN']);
+        } catch(e) {
+          lastLogin = null;
+        }
         return M_LOGIN_INFO(
           username: maps[i]['USERNAME'],
           password: maps[i]['PASSWORD'],
-          last_login: maps[i]['LAST_LOGIN'],
-          created_at: maps[i]['CREATED_AT'],
-          updated_at: maps[i]['UPDATED_AT'],
+          last_login: lastLogin,
         );
       });
     } else {
@@ -78,13 +82,18 @@ class DBProvider_m_login_info {
   }
 
   updateLoginInfo(M_LOGIN_INFO loginInfo) async {
+    print(loginInfo.toMap());
     final db = await database;
-    var res = await db.update(
-      tableName,
-      loginInfo.toMap(),
-      where: "username = ?",
-      whereArgs: [loginInfo.username]
-    );
+    var res = await db.rawUpdate('''
+      update
+        M_LOGIN_INFO
+      set
+        password = '${loginInfo.password}'
+      , last_login = CURRENT_TIMESTAMP
+      , updated_at = CURRENT_TIMESTAMP
+      where
+        username = '${loginInfo.username}'
+    ''');
     return res;
   }
 

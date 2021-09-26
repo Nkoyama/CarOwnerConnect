@@ -208,16 +208,13 @@ class SignInState extends State<SignInResult> {
           var lastLoginUsername;
           var lastLoginPassword;
           for(var li in loginInfo) {
-            print(li.username);
-            print(li.password);
-            print(li.last_login);
             if(i == 0){
               lastLoginTime = li.last_login;
               lastLoginUsername = li.username;
               lastLoginPassword = li.password;
             } else {
               try {
-                if(lastLoginTime.isBefore(li.last_login)) {
+                if(lastLoginTime == null || lastLoginTime.isBefore(li.last_login)) {
                   lastLoginTime = li.last_login;
                   lastLoginUsername = li.username;
                   lastLoginPassword = li.password;
@@ -249,10 +246,8 @@ class SignInState extends State<SignInResult> {
     // 入力チェック
     if(this.password == loginInfoResponse.returnPassword && loginInfoResponse.returnDelFlg == '0') {
       // 保存されたデータ内に一致するデータがあるか探す
-      print(this.username);
       bool isSaved = false;
       for (var li in savedLoginUsers) {
-        print(li);
         if (li.username == this.username) {
           isSaved = true;
           continue;
@@ -283,8 +278,11 @@ class SignInState extends State<SignInResult> {
       else {
         // 新しいログイン情報を保存
         final loginInfo = M_LOGIN_INFO(
-            username: this.username,
-            password: this.password
+          username: this.username,
+          password: this.password,
+          last_login: DateTime.now(),
+          created_at: DateTime.now(),
+          updated_at: DateTime.now(),
         );
         Bloc_m_login_info blocMLoginInfo = Bloc_m_login_info();
         blocMLoginInfo.create(loginInfo);
