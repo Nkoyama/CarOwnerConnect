@@ -141,18 +141,13 @@ def search_user():
 
 		result = t_user.search_user(cur, receiveData)
 
-		# convert to csv
-		matchUsers = ""
-		i = 0
-		for matchUser in result:
-			if i == 0:
-				matchUsers = str(matchUser[1]) + ", " + str(matchUser[2])
-			else:
-				matchUsers = matchUsers + "\n" + str(matchUser[1]) + ", " + str(matchUser[2])
-			i = i + 1
+		# convert to json
+		jsonMatchUser = {
+			"match_user": result
+		}
 
-		log.write_logs('RESULT search_user', matchUsers)
-		return matchUsers
+		log.write_logs('RESULT search_user', jsonMatchUser)
+		return jsonMatchUser
 
 	except Exception as e:
 		log.write_logs('EXCEPTION search_user', e)

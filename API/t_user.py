@@ -60,20 +60,27 @@ def search_user(cursor, data):
 	try:
 		sql = f'''
 			select
-				user_id
-			,	username
-			,	car_model
+				user.user_id
+			,	user.username
+			,	place.place_name
+			,	user.classification_number
+			,	user.hiragana
+			,	user.number_1
+			,	user.number_2
+			,	user.car_model
 			from
-				t_user
+				t_user	user
+			inner join
+				m_place	place
+			on	place.place_id	=	user.place_id
 			where
-				del_flg					=	false
-			and	birth_ymd				=	"20210201"
-	--		and	place_id				=	"{data['place']}"
-	--		and	classification_number	=	"{data['classification_number']}"
-	--		and	color					=	"{data['color']}"
-	--		and	hiragana				=	"{data['hiragana']}"
-	--		and	number_1				=	"{data['number_1']}"
-	--		and	number_2				=	"{data['number_2']}"
+				user.del_flg				=	false
+			and	user.place_id				=	{data['place']}
+			and	user.classification_number	=	"{data['classification_number']}"
+			and	user.color					=	"{data['color']}"
+			and	user.hiragana				=	"{data['hiragana']}"
+			and	user.number_1				=	replace("{data['number_1']}", "•", "･")
+			and	user.number_2				=	replace("{data['number_2']}", "•", "･")
 		'''
 		log.write_logs('SEARCH t_user', sql)
 	
