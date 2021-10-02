@@ -479,7 +479,7 @@ class TalkMainPageState extends State<TalkMainPage> {
   }
 
   /// 検索処理
-  void search() {
+  void search() async {
     // check place
     if(selectedPlace == "本拠選択" || selectedPlace == "") {
       showDialog(
@@ -671,14 +671,14 @@ class TalkMainPageState extends State<TalkMainPage> {
 
     // ここから検索のメイン処理
     try {
-      var result = postSearch();
+      var result = await postSearch();
     } catch(e) {
       showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
-            title: Text("ERROR"),
-            content: Text("検索できませんでした。"),
+            title: Text("SORRY"),
+            content: Text(e),
             actions: <Widget>[
               FlatButton(
                 child: Text("Oh My God"),
@@ -710,7 +710,7 @@ class TalkMainPageState extends State<TalkMainPage> {
       if(resp.body.isNotEmpty) {
         return resp.body;
       } else {
-        throw Exception("該当するユーザがいませんでした。");
+        throw 'この車の持ち主はアカウントをお持ちではないようです。';
       }
     } else {
       throw Exception("検索できませんでした。");
