@@ -632,13 +632,13 @@ class TalkMainPageState extends State<TalkMainPage> {
         },
       );
       return;
-    } else if(selectedNumber_1 != "••" && selectedNumber_2.substring(0, 1) == "•") {
+    } else if(selectedNumber_1 != "••" && selectedNumber_2.substring(0, 1) == "･") {
       showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
             title: Text("検索条件不正"),
-            content: Text("上2桁が「••」以外の場合に下2桁に「•」で始まる番号を指定することはできません"),
+            content: Text("上2桁が「･･」以外の場合に下2桁に「･」で始まる番号を指定することはできません"),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
@@ -649,7 +649,7 @@ class TalkMainPageState extends State<TalkMainPage> {
         },
       );
       return;
-    } else if(selectedNumber_1 == "••" && selectedNumber_2.substring(0, 1) == "0") {
+    } else if(selectedNumber_1 == "･･" && selectedNumber_2.substring(0, 1) == "0") {
       showDialog(
         context: context,
         builder: (_) {
@@ -672,6 +672,18 @@ class TalkMainPageState extends State<TalkMainPage> {
     // ここから検索のメイン処理
     try {
       var result = await postSearch();
+      List<dynamic> matchUser = result.returnMatchUser[0];
+      // 検索に成功したらトーク画面に遷移
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TalkPage(
+            opponentText: matchUser[1]
+                          + "(" + matchUser[2] + " " + matchUser[3] + " "
+                          + matchUser[4] + " " + matchUser[5] + "-" + matchUser[6] + ")"
+          )
+        ),
+      );
     } catch(e) {
       showDialog(
         context: context,
@@ -691,7 +703,7 @@ class TalkMainPageState extends State<TalkMainPage> {
     }
   }
 
-  Future<String> postSearch() async {
+  Future<MatchUserResponse> postSearch() async {
     String url = gc.apiUrl + '/searchUser/';
     Map<String, String> headers = {'Content_type': 'application/json'};
 
@@ -708,7 +720,7 @@ class TalkMainPageState extends State<TalkMainPage> {
     http.Response resp = await http.post(url, headers: headers, body: json.encode(body));
     if(resp.statusCode == 200) {
       if(resp.body.isNotEmpty) {
-        return resp.body;
+        return new MatchUserResponse.fromJson(json.decode(resp.body));
       } else {
         throw 'この車の持ち主はアカウントをお持ちではないようです。';
       }
@@ -750,7 +762,18 @@ class PlaceListResponse {
   ]);
 
   PlaceListResponse.fromJson(Map<String,dynamic> json) :
-      returnPlaceList = json['place_list'];
+    returnPlaceList = json['place_list'];
+}
+
+class MatchUserResponse {
+  List<dynamic> returnMatchUser;
+
+  MatchUserResponse([
+    this.returnMatchUser
+  ]);
+
+  MatchUserResponse.fromJson(Map<String,dynamic> json) :
+    returnMatchUser = json['match_user'];
 }
 
 class TalkHistory extends StatefulWidget {
