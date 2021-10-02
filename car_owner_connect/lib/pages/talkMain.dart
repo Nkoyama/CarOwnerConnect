@@ -632,7 +632,7 @@ class TalkMainPageState extends State<TalkMainPage> {
         },
       );
       return;
-    } else if(selectedNumber_1 != "••" && selectedNumber_2.substring(0, 1) == "･") {
+    } else if(selectedNumber_1 != "･･" && selectedNumber_2.substring(0, 1) == "･") {
       showDialog(
         context: context,
         builder: (_) {
@@ -725,7 +725,7 @@ class TalkMainPageState extends State<TalkMainPage> {
         throw 'この車の持ち主はアカウントをお持ちではないようです。';
       }
     } else {
-      throw Exception("検索できませんでした。");
+      throw '検索できませんでした。';
     }
   }
 
