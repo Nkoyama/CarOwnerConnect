@@ -692,7 +692,7 @@ class TalkMainPageState extends State<TalkMainPage> {
   }
 
   Future<String> postSearch() async {
-    String url = 'http://160.16.217.34/api/searchUser/';
+    String url = gc.apiUrl + '/searchUser/';
     Map<String, String> headers = {'Content_type': 'application/json'};
 
     selectedPlaceCode = placeCodeList[placeList.indexOf(selectedPlace)];
@@ -718,7 +718,7 @@ class TalkMainPageState extends State<TalkMainPage> {
   }
 
   void getPlaceList() async {
-    http.get('http://160.16.217.34/api/placeList/').then((response) {
+    http.get(gc.apiUrl + '/placeList/').then((response) {
       setState(() {
         if(response.statusCode == 200) {
           placeListResponse = new PlaceListResponse.fromJson(json.decode(response.body));

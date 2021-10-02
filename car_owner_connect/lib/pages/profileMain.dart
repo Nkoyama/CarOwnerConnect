@@ -703,7 +703,7 @@ class ProfileMainPageState extends State<ProfileMainPage> {
   }
 
   void getPlaceList() async {
-    http.get('http://160.16.217.34/api/placeList/').then((response) {
+    http.get(gc.apiUrl + '/placeList/').then((response) {
       setState(() {
         placeList = response.body.toString().split(', ');
         if(placeList.length > 0) {

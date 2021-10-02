@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import '../import/globalConstant.dart' as gc;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -497,7 +498,7 @@ class CreateAccountState extends State<CreateAccountResult> {
   }
 
   Future<String> postNewAccount() async {
-    String url = 'http://160.16.217.34/api/createAccount/';
+    String url = gc.apiUrl + '/createAccount/';
     Map<String, String> headers = {'Content-type': 'application/json'};
     Map<String, dynamic> body = {
       'username': username,

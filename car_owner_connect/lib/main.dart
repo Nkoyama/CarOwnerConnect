@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'import/globalConstant.dart' as gc;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'import/header.dart';
 import 'pages/createAccount.dart';
@@ -338,7 +339,7 @@ class SignInState extends State<SignInResult> {
 
   // usernameをサーバーに送り、passwordとdel_flgが返ってくる
   Future<LoginInfoResponse> getLoginInfo() async {
-    String url = 'http://160.16.217.34/api/loginInfo/';
+    String url = gc.apiUrl + '/loginInfo/';
     Map<String, String> headers = {'Content-type': 'application/json'};
     Map<String, dynamic> body = {'username': this.username};
     http.Response resp = await http.post(url, headers: headers, body: json.encode(body));

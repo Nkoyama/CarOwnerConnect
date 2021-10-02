@@ -1,5 +1,8 @@
 library my_prj.globals;
 
+/* API */
+final String apiUrl = 'http://160.16.217.34/api';
+
 /* lists */
 /* 選択肢リスト */
 final List<String> placeList = [
